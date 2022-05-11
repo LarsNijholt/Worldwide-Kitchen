@@ -6,14 +6,9 @@ namespace Characters
 {
     public class SpeedCharacter : BaseCharacter
     {
-        void Start()
-        {
-            
-        }
-
         void Update()
         {
-            MoveSideways(this.gameObject);
+            MoveCharacter(this.gameObject);
         }
-    } 
+    }
 }
