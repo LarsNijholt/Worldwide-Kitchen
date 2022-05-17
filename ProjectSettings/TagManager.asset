@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Asia
+  - Europe
+  - Oceania
+  - Africa
+  - Food
+  - Floor
   layers:
   - Default
   - TransparentFX
