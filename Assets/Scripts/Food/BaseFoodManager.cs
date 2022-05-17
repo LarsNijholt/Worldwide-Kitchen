@@ -23,6 +23,11 @@ public class BaseFoodManager : MonoBehaviour
         SpawnFood(_oceaniaFoodList, _oceaniaSpawnList);
     }
 
+    /// <summary>
+    /// Spawns the food gameobjects and takes a random index.
+    /// </summary>
+    /// <param name="AreaFoodList"></param>
+    /// <param name="AreaSpawnList"></param>
     private void SpawnFood(List<GameObject> AreaFoodList, List<GameObject> AreaSpawnList)
     {
         List<int> RandomList = new List<int>();
