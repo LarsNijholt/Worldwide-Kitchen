@@ -43,7 +43,11 @@ namespace Characters
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
             if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y <= -0.1) HasJumped = true;
-            if (collision.gameObject.CompareTag("Platform")) this.transform.SetParent(null);
+            if (collision.gameObject.CompareTag("Platform"))
+            {
+                this.transform.SetParent(null);
+                HasJumped = true;
+            }
         }
 
         /// <summary>
