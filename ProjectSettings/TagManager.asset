@@ -10,6 +10,7 @@ TagManager:
   - Africa
   - Food
   - Floor
+  - Platform
   layers:
   - Default
   - TransparentFX
