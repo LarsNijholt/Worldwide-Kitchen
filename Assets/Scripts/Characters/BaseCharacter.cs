@@ -32,6 +32,19 @@ namespace Characters
         protected void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Floor")) HasJumped = false; print("Hello");
+            if (collision.gameObject.CompareTag("Platform"))
+            {
+                this.transform.SetParent(collision.gameObject.transform);
+                HasJumped = false;
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+            if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y >= 1) HasJumped = true;
+            print(rigidbody.velocity.y);
+            if (collision.gameObject.CompareTag("Platform")) this.transform.SetParent(null);
         }
 
         /// <summary>
