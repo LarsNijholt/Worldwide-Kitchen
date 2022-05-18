@@ -31,7 +31,7 @@ namespace Characters
         }
         protected void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Floor")) HasJumped = false; print("Hello");
+            if (collision.gameObject.CompareTag("Floor")) HasJumped = false;
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(collision.gameObject.transform);
@@ -43,7 +43,6 @@ namespace Characters
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
             if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y <= -0.1) HasJumped = true;
-            print(rigidbody.velocity.y);
             if (collision.gameObject.CompareTag("Platform")) this.transform.SetParent(null);
         }
 
@@ -124,8 +123,8 @@ namespace Characters
         /// </summary>
         protected void MoveSideways(GameObject CharacterToMove, KeyCode left, KeyCode right)
         {
-            if (Input.GetKey(KeyCode.D)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
-            if (Input.GetKey(KeyCode.A)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
+            if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
+            if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
         }
 
         /// <summary>
