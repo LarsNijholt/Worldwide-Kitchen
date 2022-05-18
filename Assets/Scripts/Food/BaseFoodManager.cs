@@ -40,7 +40,6 @@ public class BaseFoodManager : MonoBehaviour
             print(itr);
             if (itr == AreaFoodList.Count)
             {
-                print("End Reached");
                 return;
             }
             int random = Random.Range(0, AreaSpawnList.Count);
