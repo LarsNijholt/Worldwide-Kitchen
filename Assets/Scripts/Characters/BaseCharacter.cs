@@ -42,7 +42,7 @@ namespace Characters
         private void OnCollisionExit2D(Collision2D collision)
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-            if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y >= 1) HasJumped = true;
+            if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y <= -0.1) HasJumped = true;
             print(rigidbody.velocity.y);
             if (collision.gameObject.CompareTag("Platform")) this.transform.SetParent(null);
         }
