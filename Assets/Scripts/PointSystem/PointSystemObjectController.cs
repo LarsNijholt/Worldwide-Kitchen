@@ -41,11 +41,11 @@ public class PointSystemObjectController : MonoBehaviour
     {
         if (_goBack == true)
         {
-            _pos = point.previousPoint.transform.position;
+            _pos = point.previousPoint.transform.localPosition;
         }
         else
         {
-            _pos = point.nextPoint.transform.position;
+            _pos = point.nextPoint.transform.localPosition;
         }
         _destination = new Vector2(_pos.x, _pos.y);
     }
@@ -55,7 +55,7 @@ public class PointSystemObjectController : MonoBehaviour
     }
     private void MoveTo()
     {
-        float dist = Vector2.Distance(_destination, transform.position);
+        float dist = Vector2.Distance(_destination, transform.localPosition);
         if (dist < 0.005f)
         {
             try
@@ -103,7 +103,7 @@ public class PointSystemObjectController : MonoBehaviour
                 }
             }
         }
-        transform.position = Vector2.MoveTowards(transform.position, _destination, speed * Time.deltaTime);
+        transform.localPosition = Vector2.MoveTowards(transform.localPosition, _destination, speed * Time.deltaTime);
     }
 
     #region Events
