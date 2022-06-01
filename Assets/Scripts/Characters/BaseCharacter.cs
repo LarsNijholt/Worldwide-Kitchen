@@ -31,7 +31,23 @@ namespace Characters
         }
         protected void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Floor")) HasJumped = false; print("Hello");
+            if (collision.gameObject.CompareTag("Floor")) HasJumped = false;
+            if (collision.gameObject.CompareTag("Platform"))
+            {
+                this.transform.SetParent(collision.gameObject.transform);
+                HasJumped = false;
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+            if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y <= -0.1) HasJumped = true;
+            if (collision.gameObject.CompareTag("Platform"))
+            {
+                this.transform.SetParent(null);
+                HasJumped = true;
+            }
         }
 
         /// <summary>
@@ -66,15 +82,6 @@ namespace Characters
         }
 
         /// <summary>
-        /// Handles character movement
-        /// </summary>
-        protected void MoveCharacter(GameObject CharacterToMove)
-        {
-            MoveSideways(CharacterToMove);
-            Jump(CharacterToMove);
-        }
-
-        /// <summary>
         /// Checks location for specified character to see what outfit to switch.
         /// </summary>
         protected void CheckLocation(GameObject CharacterToLocate)
@@ -106,10 +113,10 @@ namespace Characters
         /// <summary>
         /// Handles jumping.
         /// </summary>
-        private void Jump(GameObject CharacterToMove)
+        protected void Jump(GameObject CharacterToMove, KeyCode up)
         {
             Rigidbody2D RigidBody = CharacterToMove.GetComponent<Rigidbody2D>();
-            if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(KeyCode.W) && !HasJumped)
+            if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(up) && !HasJumped)
             {
                 HasJumped = true;
                 RigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Force);
@@ -118,10 +125,10 @@ namespace Characters
         /// <summary>
         /// Handles movement on the x axis.
         /// </summary>
-        private void MoveSideways(GameObject CharacterToMove)
+        protected void MoveSideways(GameObject CharacterToMove, KeyCode left, KeyCode right)
         {
-            if (Input.GetKey(KeyCode.D)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
-            if (Input.GetKey(KeyCode.A)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
+            if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
+            if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
         }
 
         /// <summary>
