@@ -9,7 +9,6 @@ namespace Characters
         [Header("Base values")]
         [SerializeField] protected float Speed = 10;
         [SerializeField] protected float JumpForce = 10f;
-        [SerializeField] protected float _maxInventoryCount = 10;
         protected bool HasJumped = false;
 
 
@@ -20,14 +19,14 @@ namespace Characters
         [SerializeField] protected Sprite Outfit4;
 
         [Header("Inventory")]
-        [SerializeField] protected List<GameObject> _inventory;
+        [SerializeField] private InventorySystem _inventory;
 
         protected CharacterState characterState = new CharacterState();
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchOutfit(collision);
-            if (collision.gameObject.CompareTag("Food") && _inventory.Count < _maxInventoryCount) PickUpItem(collision.gameObject);
+            if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject);
         }
         protected void OnCollisionEnter2D(Collision2D collision)
         {
@@ -122,6 +121,7 @@ namespace Characters
                 RigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Force);
             }
         }
+
         /// <summary>
         /// Handles movement on the x axis.
         /// </summary>
@@ -130,18 +130,7 @@ namespace Characters
             if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
             if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
         }
-
-        /// <summary>
-        /// Handles picking up items and adding it to a list that serves as inventory.
-        /// </summary>
-        protected void PickUpItem(GameObject Item)
-        {
-            if (Item == null) return;
-
-            _inventory.Add(Item);
-            Item.SetActive(false);
-        }
-
+       
         public enum CharacterState
         {
             Asia = 0,
