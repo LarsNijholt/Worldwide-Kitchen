@@ -10,6 +10,7 @@ namespace Characters
         [SerializeField] protected float Speed = 10;
         [SerializeField] protected float JumpForce = 10f;
         [SerializeField] protected float _maxInventoryCount = 10;
+        [SerializeField] protected Collider2D _otherCharacterCollider;
         protected bool HasJumped = false;
 
 
@@ -21,14 +22,20 @@ namespace Characters
 
         [Header("Inventory")]
         [SerializeField] protected List<GameObject> _inventory;
-
+         
         protected CharacterState characterState = new CharacterState();
+
+        private void Awake()
+        {
+            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCharacterCollider);
+        }
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchOutfit(collision);
             if (collision.gameObject.CompareTag("Food") && _inventory.Count < _maxInventoryCount) PickUpItem(collision.gameObject);
         }
+
         protected void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Floor")) HasJumped = false;
@@ -116,6 +123,11 @@ namespace Characters
         protected void Jump(GameObject CharacterToMove, KeyCode up)
         {
             Rigidbody2D RigidBody = CharacterToMove.GetComponent<Rigidbody2D>();
+            if (Input.GetKeyUp(up))
+            {
+                print(RigidBody.velocity.y);
+                print(HasJumped);
+            }
             if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(up) && !HasJumped)
             {
                 HasJumped = true;
