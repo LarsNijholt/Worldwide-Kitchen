@@ -9,6 +9,7 @@ namespace Characters
         [Header("Base values")]
         [SerializeField] protected float Speed = 10;
         [SerializeField] protected float JumpForce = 10f;
+        [SerializeField] protected Collider2D _otherCollider;
         protected bool HasJumped = false;
 
 
@@ -22,6 +23,11 @@ namespace Characters
         [SerializeField] private InventorySystem _inventory;
 
         protected CharacterState characterState = new CharacterState();
+
+        private void Awake()
+        {
+            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCollider);
+        }
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
