@@ -11,6 +11,7 @@ TagManager:
   - Food
   - Floor
   - Platform
+  - CookPot
   layers:
   - Default
   - TransparentFX

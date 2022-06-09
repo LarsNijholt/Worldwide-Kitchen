@@ -1,3 +1,4 @@
+using Assets.Food;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,21 +23,22 @@ namespace Characters
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
 
-        protected CharacterState characterState = new CharacterState();
+        protected CharacterState characterState;
 
         private void Awake()
         {
+            characterState  = new CharacterState();
             Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCollider);
         }
+
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchOutfit(collision);
-            if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject);
+            if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
         }
         protected void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Floor")) HasJumped = false;
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(collision.gameObject.transform);
@@ -47,7 +49,7 @@ namespace Characters
         private void OnCollisionExit2D(Collision2D collision)
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-            if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y <= -0.1) HasJumped = true;
+            if (rigidbody.velocity.y <= -0.1) HasJumped = true;
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(null);
@@ -121,6 +123,7 @@ namespace Characters
         protected void Jump(GameObject CharacterToMove, KeyCode up)
         {
             Rigidbody2D RigidBody = CharacterToMove.GetComponent<Rigidbody2D>();
+            if (RigidBody.velocity.y <= 0 && RigidBody.velocity.y > -0.01) HasJumped = false;
             if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(up) && !HasJumped)
             {
                 HasJumped = true;
@@ -135,6 +138,21 @@ namespace Characters
         {
             if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
             if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
+        }
+
+        public bool GameEnded()
+        {
+            // This can be placed elsewhere if neccessary, i just don't have a game manager script right now.
+            //placeholder
+            return false;
+            if (true) return true;
+            return false;
+            
+        }
+
+        public void StartCooking()
+        {
+
         }
        
         public enum CharacterState
