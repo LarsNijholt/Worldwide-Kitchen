@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ButtonController : MonoBehaviour
 {
-    [SerializeField] private DoorController _doorToOpen;
+    [SerializeField] private UnityEvent _btnDown;
+    [SerializeField] private UnityEvent _btnUp;
     
     private SpriteRenderer _renderer;
     private void Awake()
@@ -23,14 +25,12 @@ public class ButtonController : MonoBehaviour
     private void ButtonDown()
     {
         _renderer.enabled = false;
-        _doorToOpen.StopAllCoroutines();
-        _doorToOpen.StartCoroutine(_doorToOpen.OpenDoor());
+        _btnDown.Invoke();
     }
 
     private void ButtonUp()
     {
         _renderer.enabled = true;
-        _doorToOpen.StopAllCoroutines();
-        _doorToOpen.StartCoroutine(_doorToOpen.CloseDoor());
+        _btnUp.Invoke();
     }
 }

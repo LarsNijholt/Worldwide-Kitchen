@@ -45,7 +45,5 @@ public class AutoSavingEditor : MonoBehaviour
         EditorSceneManager.SaveOpenScenes();
         AssetDatabase.SaveAssets();
         _lastSaveTime = EditorApplication.timeSinceStartup;
-
-        Debug.Log("Auto saved.");
     }
 }
