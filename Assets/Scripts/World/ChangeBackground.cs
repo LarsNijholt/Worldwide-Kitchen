@@ -11,6 +11,7 @@ namespace Assets.World
         [SerializeField] private Sprite _africaBG;
         [SerializeField] private Sprite _oceaniaBG;
         [SerializeField] private Sprite _asiaBG;
+        [SerializeField] private Sprite _defaultBG;
 
         /// <summary>
         /// Switches out the background based on where the player is
@@ -42,6 +43,13 @@ namespace Assets.World
                 case 3:
                     {
                         _backGround.sprite= _asiaBG;
+
+                        break;
+                    }
+
+                case 4:
+                    {
+                        _backGround.sprite = _defaultBG;
 
                         break;
                     }

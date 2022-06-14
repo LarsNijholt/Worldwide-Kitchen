@@ -104,6 +104,7 @@ namespace Characters
             if (collision.gameObject.CompareTag("Africa")) _changeBackground.UpdateBackGround(1);
             if (collision.gameObject.CompareTag("Oceania")) _changeBackground.UpdateBackGround(2);
             if (collision.gameObject.CompareTag("Asia")) _changeBackground.UpdateBackGround(3);
+            if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
         /// <summary>
