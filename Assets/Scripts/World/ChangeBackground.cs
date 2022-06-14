@@ -23,34 +23,30 @@ namespace Assets.World
                 case 0:
                     {
                         _backGround.sprite = _europeBG;
-
                         break;
                     }
+
                 case 1:
                     {
                         _backGround.sprite = _africaBG;
-
                         break;
                     }
 
                 case 2:
                     {
                         _backGround.sprite = _oceaniaBG;
-
                         break;
                     }
 
                 case 3:
                     {
                         _backGround.sprite= _asiaBG;
-
                         break;
                     }
 
                 case 4:
                     {
                         _backGround.sprite = _defaultBG;
-
                         break;
                     }
             }
