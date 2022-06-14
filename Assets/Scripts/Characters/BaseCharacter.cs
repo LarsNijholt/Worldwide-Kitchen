@@ -1,4 +1,5 @@
 using Assets.Food;
+using Assets.World;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,9 @@ namespace Characters
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
 
+        [Header("World References")]
+        [SerializeField] private ChangeBackground _changeBackground;
+
         protected CharacterState characterState;
 
         private void Awake()
@@ -35,7 +39,9 @@ namespace Characters
         protected void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchOutfit(collision);
+            SwitchBackGround(collision);
             if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
+           
         }
         protected void OnCollisionEnter2D(Collision2D collision)
         {
@@ -45,6 +51,7 @@ namespace Characters
                 HasJumped = false;
             }
         }
+        
 
         private void OnCollisionExit2D(Collision2D collision)
         {
@@ -86,6 +93,18 @@ namespace Characters
                 CheckLocation(this.gameObject);
                 return;
             }
+        }
+
+        /// <summary>
+        /// Switches out the background.
+        /// </summary>
+        private void SwitchBackGround(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("Europe")) _changeBackground.UpdateBackGround(0);
+            if (collision.gameObject.CompareTag("Africa")) _changeBackground.UpdateBackGround(1);
+            if (collision.gameObject.CompareTag("Oceania")) _changeBackground.UpdateBackGround(2);
+            if (collision.gameObject.CompareTag("Asia")) _changeBackground.UpdateBackGround(3);
+            if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
         /// <summary>
