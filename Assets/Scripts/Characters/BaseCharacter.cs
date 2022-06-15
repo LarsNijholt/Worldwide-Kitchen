@@ -122,7 +122,6 @@ namespace Characters
         /// <summary>
         /// Changes physics for drag and direction
         /// </summary>
-        /// <param name="jump"></param>
         private void ModifyPhysics(KeyCode jump)
         {
             bool changingDirection = (_direction.x > 0 && _rigidBody.velocity.x < 0) || (_direction.x < 0 && _rigidBody.velocity.x > 0);
