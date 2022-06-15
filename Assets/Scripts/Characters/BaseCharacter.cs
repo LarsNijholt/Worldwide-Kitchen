@@ -1,25 +1,38 @@
 using Assets.Food;
 using Assets.World;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters
 {
     public class BaseCharacter : MonoBehaviour
     {
-        [Header("Base values")]
-        [SerializeField] protected float Speed = 10;
-        [SerializeField] protected float JumpForce = 10f;
-        [SerializeField] protected Collider2D _otherCollider;
-        protected bool HasJumped = false;
+        [Header("Horizontal movement")]
+        [SerializeField] private float _accelerationSpeed = 30;
+        [SerializeField] private Vector2 _direction;
+        [SerializeField] private Collider2D _otherCollider;
+        private bool _facingRight = true;
 
+        [Header("Verical movement")]
+        [SerializeField] private float _jumpSpeed = 15f;
+        [SerializeField] private float _jumpDelay = 0.25f;
+        private float _jumpTimer;
 
-        [Header("Outfits")]
-        [SerializeField] protected Sprite Outfit1;
-        [SerializeField] protected Sprite Outfit2;
-        [SerializeField] protected Sprite Outfit3;
-        [SerializeField] protected Sprite Outfit4;
+        [Header("Components")]
+        [SerializeField] private Rigidbody2D _rigidBody;
+        [SerializeField] private LayerMask _groundLayer;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private GameObject _charachterHolder;
+
+        [Header("Physics")]
+        [SerializeField] private float _maxSpeed = 7f;
+        [SerializeField] private float _linearDrag = 4f;
+        [SerializeField] private float _gravity = 1f;
+        [SerializeField] private float _fallMultiplier = 5f;
+
+        [Header("Collision")]
+        [SerializeField] private bool _onGround = false;
+        [SerializeField] private float _groundLength = 0.6f;
+        [SerializeField] private Vector3 _colliderOffset;
 
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
@@ -27,72 +40,122 @@ namespace Characters
         [Header("World References")]
         [SerializeField] private ChangeBackground _changeBackground;
 
-        protected CharacterState characterState;
-
         private void Awake()
         {
-            characterState  = new CharacterState();
             Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCollider);
         }
 
-
-        protected void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            SwitchOutfit(collision);
             SwitchBackGround(collision);
             if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
-           
         }
-        protected void OnCollisionEnter2D(Collision2D collision)
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(collision.gameObject.transform);
-                HasJumped = false;
             }
         }
-        
-
         private void OnCollisionExit2D(Collision2D collision)
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-            if (rigidbody.velocity.y <= -0.1) HasJumped = true;
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(null);
-                HasJumped = true;
             }
         }
 
         /// <summary>
-        /// Handles outfit switching based on which location the player is in.
+        /// Movement for update.
         /// </summary>
-        private void SwitchOutfit(Collider2D collision)
+        protected void UpdateMovement(KeyCode jumpkey, string horizontalAxis, string VerticalAxis)
         {
-            if (collision.CompareTag("Asia"))
+            _onGround = Physics2D.Raycast(transform.position + _colliderOffset, Vector2.down, _groundLength, _groundLayer) ||
+                Physics2D.Raycast(transform.position - _colliderOffset, Vector2.down, _groundLength, _groundLayer);
+
+            if (Input.GetKey(jumpkey))
             {
-                characterState = CharacterState.Asia;
-                CheckLocation(this.gameObject);
-                return;
+                _jumpTimer = Time.time + _jumpDelay;
             }
-            if (collision.CompareTag("Africa"))
+            _animator.SetBool("onGround", _onGround);
+            _direction = new Vector2(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(VerticalAxis));
+        }
+
+        /// <summary>
+        /// Movement for fixed update.
+        /// </summary>
+        protected void FixedMovement(KeyCode jump)
+        {
+            MoveCharacter(_direction.x);
+            if (_jumpTimer > Time.time && _onGround) Jump();
+            ModifyPhysics(jump);
+        }
+
+        /// <summary>
+        /// Handles movement for character.
+        /// </summary>
+        private void MoveCharacter(float horizontal)
+        {
+            _rigidBody.AddForce(Vector2.right * horizontal * _accelerationSpeed);
+
+            if ((horizontal > 0 && !_facingRight) || (horizontal < 0 && _facingRight)) Flip();
+            if (Mathf.Abs(_rigidBody.velocity.x) > _maxSpeed)
             {
-                characterState = CharacterState.Africa;
-                CheckLocation(this.gameObject);
-                return;
+                _rigidBody.velocity = new Vector2(Mathf.Sign(_rigidBody.velocity.x) * _maxSpeed, _rigidBody.velocity.y);
             }
-            if (collision.CompareTag("Europe"))
+            _animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
+            _animator.SetFloat("vertical", _rigidBody.velocity.y);
+        }
+
+        /// <summary>
+        /// Handles jumping.
+        /// </summary>
+        private void Jump()
+        {
+            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, 0);
+            _rigidBody.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
+            _jumpTimer = 0;
+        }
+
+        /// <summary>
+        /// Changes physics for drag and direction
+        /// </summary>
+        private void ModifyPhysics(KeyCode jump)
+        {
+            bool changingDirection = (_direction.x > 0 && _rigidBody.velocity.x < 0) || (_direction.x < 0 && _rigidBody.velocity.x > 0);
+
+            if (_onGround)
             {
-                characterState = CharacterState.Europe;
-                CheckLocation(this.gameObject);
-                return;
+                if (Mathf.Abs(_direction.x) < 0.4f || changingDirection) _rigidBody.drag = _linearDrag;
+                else
+                {
+                    _rigidBody.drag = 0f;
+                }
+
+                _rigidBody.gravityScale = 0;
             }
-            if (collision.CompareTag("Oceania"))
+            else
             {
-                characterState = CharacterState.Oceania;
-                CheckLocation(this.gameObject);
-                return;
+                _rigidBody.gravityScale = _gravity;
+                _rigidBody.drag = _linearDrag * 0.15f;
+                _rigidBody.drag = _linearDrag * 0.15f;
+                if (_rigidBody.velocity.y < 0) _rigidBody.gravityScale = _gravity * _fallMultiplier;
+                else if (_rigidBody.velocity.y > 0 && Input.GetKey(jump))
+                {
+                    _rigidBody.gravityScale = _gravity * (_fallMultiplier / 2);
+                }
             }
+        }
+
+        /// <summary>
+        /// Flips the character.
+        /// </summary>
+        private void Flip()
+        {
+            _facingRight = !_facingRight;
+            transform.rotation = Quaternion.Euler(0, _facingRight ? 0 : 180, 0);
         }
 
         /// <summary>
@@ -107,58 +170,6 @@ namespace Characters
             if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
-        /// <summary>
-        /// Checks location for specified character to see what outfit to switch.
-        /// </summary>
-        protected void CheckLocation(GameObject CharacterToLocate)
-        {
-            switch (characterState)
-            {
-                case CharacterState.Asia:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit1;
-                    print("outfit 1");
-                    break;
-                case CharacterState.Oceania:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit2;
-                    print("outfit 2");
-                    break;
-                case CharacterState.Europe:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit3;
-                    print("outfit 3");
-                    break;
-                case CharacterState.Africa:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit4;
-                    print("outfit 4");
-                    break;
-                default:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit1;
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Handles jumping.
-        /// </summary>
-        protected void Jump(GameObject CharacterToMove, KeyCode up)
-        {
-            Rigidbody2D RigidBody = CharacterToMove.GetComponent<Rigidbody2D>();
-            if (RigidBody.velocity.y <= 0 && RigidBody.velocity.y > -0.01) HasJumped = false;
-            if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(up) && !HasJumped)
-            {
-                HasJumped = true;
-                RigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Force);
-            }
-        }
-
-        /// <summary>
-        /// Handles movement on the x axis.
-        /// </summary>
-        protected void MoveSideways(GameObject CharacterToMove, KeyCode left, KeyCode right)
-        {
-            if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
-            if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
-        }
-
         public bool GameEnded()
         {
             // This can be placed elsewhere if neccessary, i just don't have a game manager script right now.
@@ -166,20 +177,12 @@ namespace Characters
             return false;
             if (true) return true;
             return false;
-            
+
         }
 
         public void StartCooking()
         {
 
-        }
-       
-        public enum CharacterState
-        {
-            Asia = 0,
-            Oceania = 1,
-            Europe = 2,
-            Africa = 3,
         }
     }
 }

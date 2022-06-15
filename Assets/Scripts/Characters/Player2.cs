@@ -6,15 +6,16 @@ namespace Characters
 {
     public class Player2 : BaseCharacter
     {
+        private KeyCode jump = KeyCode.W;
         void Update()
         {
-            MoveCharacter();
+            UpdateMovement(jump, "Horizontal2", "Vertical2");
         }
 
-        private void MoveCharacter()
+        private void FixedUpdate()
         {
-            MoveSideways(this.gameObject, KeyCode.LeftArrow, KeyCode.RightArrow);
-            Jump(this.gameObject, KeyCode.UpArrow);
+            FixedMovement(jump);
         }
-    } 
+
+    }
 }
