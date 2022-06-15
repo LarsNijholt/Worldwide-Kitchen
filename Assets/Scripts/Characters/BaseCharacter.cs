@@ -8,18 +8,36 @@ namespace Characters
 {
     public class BaseCharacter : MonoBehaviour
     {
-        [Header("Base values")]
-        [SerializeField] protected float Speed = 10;
-        [SerializeField] protected float JumpForce = 10f;
+        [Header("Horizontal movement")]
+        [SerializeField] protected float moveSpeed = 10;
+        [SerializeField] protected Vector2 direction;
         [SerializeField] protected Collider2D _otherCollider;
+        private bool facingRight = true;
         protected bool HasJumped = false;
 
+        [Header("Verical movement")]
+        [SerializeField] protected float jumpSpeed = 15f;
+        [SerializeField] protected float jumpDelay = 0.25f;
+        private float jumpTimer;
 
-        [Header("Outfits")]
-        [SerializeField] protected Sprite Outfit1;
-        [SerializeField] protected Sprite Outfit2;
-        [SerializeField] protected Sprite Outfit3;
-        [SerializeField] protected Sprite Outfit4;
+        [Header("Components")]
+        [SerializeField] protected Rigidbody2D rigidBody;
+        [SerializeField] protected LayerMask groundLayer;
+        [SerializeField] protected Animator animator;
+        [SerializeField] protected GameObject charachterHolder;
+
+        [Header("Physics")]
+        [SerializeField] protected float maxSpeed = 7f;
+        [SerializeField] protected float linearDrag = 4f;
+        [SerializeField] protected float gravity = 1f;
+        [SerializeField] protected float fallMultiplier = 5f;
+
+        [Header("Collision")]
+        [SerializeField] protected bool onGround = false;
+        [SerializeField] protected float groundLength = 0.6f;
+        [SerializeField] protected Vector3 colliderOffset;
+
+       
 
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
@@ -27,18 +45,14 @@ namespace Characters
         [Header("World References")]
         [SerializeField] private ChangeBackground _changeBackground;
 
-        protected CharacterState characterState;
-
         private void Awake()
         {
-            characterState  = new CharacterState();
             Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCollider);
         }
 
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
-            SwitchOutfit(collision);
             SwitchBackGround(collision);
             if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
            
@@ -51,7 +65,100 @@ namespace Characters
                 HasJumped = false;
             }
         }
-        
+
+        protected void UpdateMovement(KeyCode jumpkey)
+        {
+            bool wasOnGround = onGround;
+            onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) ||
+                Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
+            if(!wasOnGround && onGround)
+            {
+                StartCoroutine(JumpSqueeze(1.25f, 0.8f, 0.05f));
+            }
+            if(Input.GetKey(jumpkey))
+            {
+                jumpTimer = Time.time + jumpDelay;
+            }
+            animator.SetBool("onGround", onGround);
+        }
+
+        protected void FixUpdateMovement()
+        {
+
+        }
+
+        IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
+        {
+            Vector3 originalSize = Vector3.one;
+            Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
+
+            float t = 0f;
+            while(t < 1.0)
+            {
+                t += Time.deltaTime / seconds;
+                charachterHolder.transform.localScale = Vector3.Lerp(originalSize, newSize, t);
+                yield return null;
+            }
+            t = 0f;
+            while(t < 1.0)
+            {
+                t += Time.deltaTime / seconds;
+                charachterHolder.transform.localScale = Vector3.Lerp(newSize, originalSize, t);
+                yield return null;
+            }
+
+        }
+
+
+        /// <summary>
+        /// Handles movement on the x axis.
+        /// </summary>
+        protected void MoveSideways(GameObject CharacterToMove, KeyCode left, KeyCode right)
+        {
+            MoveCharacter(direction.x);
+        }
+
+        private void MoveCharacter(float horizontal)
+        {
+            rigidBody.AddForce(Vector2.right * horizontal * moveSpeed);
+
+            if (Mathf.Abs(rigidBody.velocity.x) > maxSpeed)
+            {
+                rigidBody.velocity = new Vector2(Mathf.Sign(rigidBody.velocity.x) * maxSpeed, rigidBody.velocity.y);
+            }
+            animator.SetFloat("horizontal", Mathf.Abs(rigidBody.velocity.x));
+            animator.SetFloat("vertical", rigidBody.velocity.y);
+        }
+
+
+        /// <summary>
+        /// Handles jumping.
+        /// </summary>
+        protected void Jump(GameObject CharacterToMove, KeyCode up)
+        {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
+            rigidBody.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            jumpTimer = 0;
+            StartCoroutine(JumpSqueeze(0.5f, 1.2f, 0.1f));
+        }
+
+        protected void ModifyPhysics()
+        {
+            bool changingDirection = (direction.x > 0 && rigidBody.velocity.x < 0) || (direction.x < 0 && rigidBody.velocity.x > 0);
+
+            if(onGround)
+            {
+                if(Mathf.Abs(direction.x) < 0.04f || changingDirection) rigidBody.drag = linearDrag;
+                else
+                {
+                    rigidBody.drag = 0f;
+                }
+                rigidBody.gravityScale = gravity;
+                rigidBody.drag = linearDrag * 0.15f;
+                if (rigidBody.velocity.y < 0) rigidBody.gravityScale = gravity * fallMultiplier;
+                else if()
+            }
+        }
 
         private void OnCollisionExit2D(Collision2D collision)
         {
@@ -61,37 +168,6 @@ namespace Characters
             {
                 this.transform.SetParent(null);
                 HasJumped = true;
-            }
-        }
-
-        /// <summary>
-        /// Handles outfit switching based on which location the player is in.
-        /// </summary>
-        private void SwitchOutfit(Collider2D collision)
-        {
-            if (collision.CompareTag("Asia"))
-            {
-                characterState = CharacterState.Asia;
-                CheckLocation(this.gameObject);
-                return;
-            }
-            if (collision.CompareTag("Africa"))
-            {
-                characterState = CharacterState.Africa;
-                CheckLocation(this.gameObject);
-                return;
-            }
-            if (collision.CompareTag("Europe"))
-            {
-                characterState = CharacterState.Europe;
-                CheckLocation(this.gameObject);
-                return;
-            }
-            if (collision.CompareTag("Oceania"))
-            {
-                characterState = CharacterState.Oceania;
-                CheckLocation(this.gameObject);
-                return;
             }
         }
 
@@ -107,57 +183,8 @@ namespace Characters
             if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
-        /// <summary>
-        /// Checks location for specified character to see what outfit to switch.
-        /// </summary>
-        protected void CheckLocation(GameObject CharacterToLocate)
-        {
-            switch (characterState)
-            {
-                case CharacterState.Asia:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit1;
-                    print("outfit 1");
-                    break;
-                case CharacterState.Oceania:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit2;
-                    print("outfit 2");
-                    break;
-                case CharacterState.Europe:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit3;
-                    print("outfit 3");
-                    break;
-                case CharacterState.Africa:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit4;
-                    print("outfit 4");
-                    break;
-                default:
-                    CharacterToLocate.GetComponent<SpriteRenderer>().sprite = Outfit1;
-                    break;
-            }
-        }
+        
 
-        /// <summary>
-        /// Handles jumping.
-        /// </summary>
-        protected void Jump(GameObject CharacterToMove, KeyCode up)
-        {
-            Rigidbody2D RigidBody = CharacterToMove.GetComponent<Rigidbody2D>();
-            if (RigidBody.velocity.y <= 0 && RigidBody.velocity.y > -0.01) HasJumped = false;
-            if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(up) && !HasJumped)
-            {
-                HasJumped = true;
-                RigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Force);
-            }
-        }
-
-        /// <summary>
-        /// Handles movement on the x axis.
-        /// </summary>
-        protected void MoveSideways(GameObject CharacterToMove, KeyCode left, KeyCode right)
-        {
-            if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
-            if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
-        }
 
         public bool GameEnded()
         {
@@ -172,14 +199,6 @@ namespace Characters
         public void StartCooking()
         {
 
-        }
-       
-        public enum CharacterState
-        {
-            Asia = 0,
-            Oceania = 1,
-            Europe = 2,
-            Africa = 3,
         }
     }
 }
