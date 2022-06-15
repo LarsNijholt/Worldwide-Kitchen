@@ -156,7 +156,7 @@ namespace Characters
                 rigidBody.gravityScale = gravity;
                 rigidBody.drag = linearDrag * 0.15f;
                 if (rigidBody.velocity.y < 0) rigidBody.gravityScale = gravity * fallMultiplier;
-                else if()
+               //else if ()
             }
         }
 
