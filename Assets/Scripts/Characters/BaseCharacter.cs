@@ -1,3 +1,5 @@
+using Assets.Food;
+using Assets.World;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +11,7 @@ namespace Characters
         [Header("Base values")]
         [SerializeField] protected float Speed = 10;
         [SerializeField] protected float JumpForce = 10f;
+        [SerializeField] protected Collider2D _otherCollider;
         protected bool HasJumped = false;
 
 
@@ -21,27 +24,39 @@ namespace Characters
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
 
-        protected CharacterState characterState = new CharacterState();
+        [Header("World References")]
+        [SerializeField] private ChangeBackground _changeBackground;
+
+        protected CharacterState characterState;
+
+        private void Awake()
+        {
+            characterState  = new CharacterState();
+            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCollider);
+        }
+
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchOutfit(collision);
-            if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject);
+            SwitchBackGround(collision);
+            if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
+           
         }
         protected void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Floor")) HasJumped = false;
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(collision.gameObject.transform);
                 HasJumped = false;
             }
         }
+        
 
         private void OnCollisionExit2D(Collision2D collision)
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-            if (collision.gameObject.CompareTag("Floor") && rigidbody.velocity.y <= -0.1) HasJumped = true;
+            if (rigidbody.velocity.y <= -0.1) HasJumped = true;
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(null);
@@ -81,6 +96,18 @@ namespace Characters
         }
 
         /// <summary>
+        /// Switches out the background.
+        /// </summary>
+        private void SwitchBackGround(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("Europe")) _changeBackground.UpdateBackGround(0);
+            if (collision.gameObject.CompareTag("Africa")) _changeBackground.UpdateBackGround(1);
+            if (collision.gameObject.CompareTag("Oceania")) _changeBackground.UpdateBackGround(2);
+            if (collision.gameObject.CompareTag("Asia")) _changeBackground.UpdateBackGround(3);
+            if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
+        }
+
+        /// <summary>
         /// Checks location for specified character to see what outfit to switch.
         /// </summary>
         protected void CheckLocation(GameObject CharacterToLocate)
@@ -115,6 +142,7 @@ namespace Characters
         protected void Jump(GameObject CharacterToMove, KeyCode up)
         {
             Rigidbody2D RigidBody = CharacterToMove.GetComponent<Rigidbody2D>();
+            if (RigidBody.velocity.y <= 0 && RigidBody.velocity.y > -0.01) HasJumped = false;
             if (RigidBody.velocity.y <= 0 && Input.GetKeyDown(up) && !HasJumped)
             {
                 HasJumped = true;
@@ -129,6 +157,21 @@ namespace Characters
         {
             if (Input.GetKey(right)) CharacterToMove.transform.Translate(new Vector3(Speed, 0) * Time.deltaTime);
             if (Input.GetKey(left)) CharacterToMove.transform.Translate(new Vector3(-Speed, 0) * Time.deltaTime);
+        }
+
+        public bool GameEnded()
+        {
+            // This can be placed elsewhere if neccessary, i just don't have a game manager script right now.
+            //placeholder
+            return false;
+            if (true) return true;
+            return false;
+            
+        }
+
+        public void StartCooking()
+        {
+
         }
        
         public enum CharacterState
