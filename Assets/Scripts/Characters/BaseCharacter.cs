@@ -1,7 +1,5 @@
 using Assets.Food;
 using Assets.World;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters
@@ -9,35 +7,32 @@ namespace Characters
     public class BaseCharacter : MonoBehaviour
     {
         [Header("Horizontal movement")]
-        [SerializeField] protected float moveSpeed = 10;
-        [SerializeField] protected Vector2 direction;
-        [SerializeField] protected Collider2D _otherCollider;
-        private bool facingRight = true;
-        protected bool HasJumped = false;
+        [SerializeField] private float _accelerationSpeed = 30;
+        [SerializeField] private Vector2 _direction;
+        [SerializeField] private Collider2D _otherCollider;
+        private bool _facingRight = true;
 
         [Header("Verical movement")]
-        [SerializeField] protected float jumpSpeed = 15f;
-        [SerializeField] protected float jumpDelay = 0.25f;
-        private float jumpTimer;
+        [SerializeField] private float _jumpSpeed = 15f;
+        [SerializeField] private float _jumpDelay = 0.25f;
+        private float _jumpTimer;
 
         [Header("Components")]
-        [SerializeField] protected Rigidbody2D rigidBody;
-        [SerializeField] protected LayerMask groundLayer;
-        [SerializeField] protected Animator animator;
-        [SerializeField] protected GameObject charachterHolder;
+        [SerializeField] private Rigidbody2D _rigidBody;
+        [SerializeField] private LayerMask _groundLayer;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private GameObject _charachterHolder;
 
         [Header("Physics")]
-        [SerializeField] protected float maxSpeed = 7f;
-        [SerializeField] protected float linearDrag = 4f;
-        [SerializeField] protected float gravity = 1f;
-        [SerializeField] protected float fallMultiplier = 5f;
+        [SerializeField] private float _maxSpeed = 7f;
+        [SerializeField] private float _linearDrag = 4f;
+        [SerializeField] private float _gravity = 1f;
+        [SerializeField] private float _fallMultiplier = 5f;
 
         [Header("Collision")]
-        [SerializeField] protected bool onGround = false;
-        [SerializeField] protected float groundLength = 0.6f;
-        [SerializeField] protected Vector3 colliderOffset;
-
-       
+        [SerializeField] private bool _onGround = false;
+        [SerializeField] private float _groundLength = 0.6f;
+        [SerializeField] private Vector3 _colliderOffset;
 
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
@@ -50,125 +45,118 @@ namespace Characters
             Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), _otherCollider);
         }
 
-
-        protected void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchBackGround(collision);
             if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
-           
         }
-        protected void OnCollisionEnter2D(Collision2D collision)
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Platform"))
             {
                 this.transform.SetParent(collision.gameObject.transform);
-                HasJumped = false;
             }
         }
-
-        protected void UpdateMovement(KeyCode jumpkey)
+        private void OnCollisionExit2D(Collision2D collision)
         {
-            bool wasOnGround = onGround;
-            onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) ||
-                Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
-            if(!wasOnGround && onGround)
+            Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+            if (collision.gameObject.CompareTag("Platform"))
             {
-                StartCoroutine(JumpSqueeze(1.25f, 0.8f, 0.05f));
+                this.transform.SetParent(null);
             }
-            if(Input.GetKey(jumpkey))
-            {
-                jumpTimer = Time.time + jumpDelay;
-            }
-            animator.SetBool("onGround", onGround);
         }
-
-        protected void FixUpdateMovement()
-        {
-
-        }
-
-        IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
-        {
-            Vector3 originalSize = Vector3.one;
-            Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
-
-            float t = 0f;
-            while(t < 1.0)
-            {
-                t += Time.deltaTime / seconds;
-                charachterHolder.transform.localScale = Vector3.Lerp(originalSize, newSize, t);
-                yield return null;
-            }
-            t = 0f;
-            while(t < 1.0)
-            {
-                t += Time.deltaTime / seconds;
-                charachterHolder.transform.localScale = Vector3.Lerp(newSize, originalSize, t);
-                yield return null;
-            }
-
-        }
-
 
         /// <summary>
-        /// Handles movement on the x axis.
+        /// Movement for update.
         /// </summary>
-        protected void MoveSideways(GameObject CharacterToMove, KeyCode left, KeyCode right)
+        protected void UpdateMovement(KeyCode jumpkey, string horizontalAxis, string VerticalAxis)
         {
-            MoveCharacter(direction.x);
+            _onGround = Physics2D.Raycast(transform.position + _colliderOffset, Vector2.down, _groundLength, _groundLayer) ||
+                Physics2D.Raycast(transform.position - _colliderOffset, Vector2.down, _groundLength, _groundLayer);
+
+            if (Input.GetKey(jumpkey))
+            {
+                _jumpTimer = Time.time + _jumpDelay;
+            }
+            _animator.SetBool("onGround", _onGround);
+            _direction = new Vector2(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(VerticalAxis));
         }
 
+        /// <summary>
+        /// Movement for fixed update.
+        /// </summary>
+        protected void FixedMovement(KeyCode jump)
+        {
+            MoveCharacter(_direction.x);
+            if (_jumpTimer > Time.time && _onGround) Jump();
+            ModifyPhysics(jump);
+        }
+
+        /// <summary>
+        /// Handles movement for character.
+        /// </summary>
         private void MoveCharacter(float horizontal)
         {
-            rigidBody.AddForce(Vector2.right * horizontal * moveSpeed);
+            _rigidBody.AddForce(Vector2.right * horizontal * _accelerationSpeed);
 
-            if (Mathf.Abs(rigidBody.velocity.x) > maxSpeed)
+            if ((horizontal > 0 && !_facingRight) || (horizontal < 0 && _facingRight)) Flip();
+            if (Mathf.Abs(_rigidBody.velocity.x) > _maxSpeed)
             {
-                rigidBody.velocity = new Vector2(Mathf.Sign(rigidBody.velocity.x) * maxSpeed, rigidBody.velocity.y);
+                _rigidBody.velocity = new Vector2(Mathf.Sign(_rigidBody.velocity.x) * _maxSpeed, _rigidBody.velocity.y);
             }
-            animator.SetFloat("horizontal", Mathf.Abs(rigidBody.velocity.x));
-            animator.SetFloat("vertical", rigidBody.velocity.y);
+            _animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
+            _animator.SetFloat("vertical", _rigidBody.velocity.y);
         }
-
 
         /// <summary>
         /// Handles jumping.
         /// </summary>
-        protected void Jump(GameObject CharacterToMove, KeyCode up)
+        private void Jump()
         {
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
-            rigidBody.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-            jumpTimer = 0;
-            StartCoroutine(JumpSqueeze(0.5f, 1.2f, 0.1f));
+            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, 0);
+            _rigidBody.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
+            _jumpTimer = 0;
         }
 
-        protected void ModifyPhysics()
+        /// <summary>
+        /// Changes physics for drag and direction
+        /// </summary>
+        /// <param name="jump"></param>
+        private void ModifyPhysics(KeyCode jump)
         {
-            bool changingDirection = (direction.x > 0 && rigidBody.velocity.x < 0) || (direction.x < 0 && rigidBody.velocity.x > 0);
+            bool changingDirection = (_direction.x > 0 && _rigidBody.velocity.x < 0) || (_direction.x < 0 && _rigidBody.velocity.x > 0);
 
-            if(onGround)
+            if (_onGround)
             {
-                if(Mathf.Abs(direction.x) < 0.04f || changingDirection) rigidBody.drag = linearDrag;
+                if (Mathf.Abs(_direction.x) < 0.4f || changingDirection) _rigidBody.drag = _linearDrag;
                 else
                 {
-                    rigidBody.drag = 0f;
+                    _rigidBody.drag = 0f;
                 }
-                rigidBody.gravityScale = gravity;
-                rigidBody.drag = linearDrag * 0.15f;
-                if (rigidBody.velocity.y < 0) rigidBody.gravityScale = gravity * fallMultiplier;
-               //else if ()
+
+                _rigidBody.gravityScale = 0;
+            }
+            else
+            {
+                _rigidBody.gravityScale = _gravity;
+                _rigidBody.drag = _linearDrag * 0.15f;
+                _rigidBody.drag = _linearDrag * 0.15f;
+                if (_rigidBody.velocity.y < 0) _rigidBody.gravityScale = _gravity * _fallMultiplier;
+                else if (_rigidBody.velocity.y > 0 && Input.GetKey(jump))
+                {
+                    _rigidBody.gravityScale = _gravity * (_fallMultiplier / 2);
+                }
             }
         }
 
-        private void OnCollisionExit2D(Collision2D collision)
+        /// <summary>
+        /// Flips the character.
+        /// </summary>
+        private void Flip()
         {
-            Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-            if (rigidbody.velocity.y <= -0.1) HasJumped = true;
-            if (collision.gameObject.CompareTag("Platform"))
-            {
-                this.transform.SetParent(null);
-                HasJumped = true;
-            }
+            _facingRight = !_facingRight;
+            transform.rotation = Quaternion.Euler(0, _facingRight ? 0 : 180, 0);
         }
 
         /// <summary>
@@ -183,9 +171,6 @@ namespace Characters
             if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
-        
-
-
         public bool GameEnded()
         {
             // This can be placed elsewhere if neccessary, i just don't have a game manager script right now.
@@ -193,7 +178,7 @@ namespace Characters
             return false;
             if (true) return true;
             return false;
-            
+
         }
 
         public void StartCooking()
