@@ -133,14 +133,12 @@ namespace Characters
                 {
                     _rigidBody.drag = 0f;
                 }
-
                 _rigidBody.gravityScale = 0;
             }
             else
             {
                 _rigidBody.gravityScale = _gravity;
-                _rigidBody.drag = _linearDrag * 0.15f;
-                _rigidBody.drag = _linearDrag * 0.15f;
+                _rigidBody.drag = _linearDrag * 0.5f;
                 if (_rigidBody.velocity.y < 0) _rigidBody.gravityScale = _gravity * _fallMultiplier;
                 else if (_rigidBody.velocity.y > 0 && Input.GetKey(jump))
                 {

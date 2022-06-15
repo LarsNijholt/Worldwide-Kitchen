@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4960835387742987600}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 169.5, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -53,14 +53,14 @@ MonoBehaviour:
   _otherCollider: {fileID: 0}
   _jumpSpeed: 15
   _jumpDelay: 0.25
-  _rigidBody: {fileID: 0}
+  _rigidBody: {fileID: 4960835387742987603}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _animator: {fileID: 0}
-  _charachterHolder: {fileID: 0}
+    m_Bits: 8
+  _animator: {fileID: 4960835387742987614}
+  _charachterHolder: {fileID: 4960835387742987600}
   _maxSpeed: 7
-  _linearDrag: 4
+  _linearDrag: 8
   _gravity: 1
   _fallMultiplier: 5
   _onGround: 0
