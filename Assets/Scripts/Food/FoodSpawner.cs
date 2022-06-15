@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Food
 {
-    public class BaseFoodManager : MonoBehaviour
+    public class FoodSpawner : MonoBehaviour
     {
         [SerializeField] private List<GameObject> _asiaFoodList = new List<GameObject>();
         [SerializeField] private List<GameObject> _asiaSpawnList = new List<GameObject>();
@@ -19,17 +19,15 @@ namespace Assets.Food
         [SerializeField] private List<GameObject> _africaSpawnList = new List<GameObject>();
         private void Awake()
         {
-            SpawnFood(_asiaFoodList, _asiaSpawnList);
+          //  SpawnFood(_asiaFoodList, _asiaSpawnList);
             SpawnFood(_europeFoodList, _europeSpawnList);
-            SpawnFood(_africaFoodList, _africaSpawnList);
-            SpawnFood(_oceaniaFoodList, _oceaniaSpawnList);
+            //SpawnFood(_africaFoodList, _africaSpawnList);
+            //SpawnFood(_oceaniaFoodList, _oceaniaSpawnList);
         }
 
         /// <summary>
         /// Spawns the food gameobjects and takes a random index.
         /// </summary>
-        /// <param name="AreaFoodList"></param>
-        /// <param name="AreaSpawnList"></param>
         private void SpawnFood(List<GameObject> AreaFoodList, List<GameObject> AreaSpawnList)
         {
             List<int> RandomList = new List<int>();
