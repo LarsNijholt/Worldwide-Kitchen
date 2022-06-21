@@ -1,5 +1,8 @@
 using Assets.Food;
+using Assets.Inventory;
 using Assets.World;
+using System.Collections.Generic;
+using Assets.UI;
 using UnityEngine;
 
 namespace Characters
@@ -36,6 +39,7 @@ namespace Characters
 
         [Header("Inventory")]
         [SerializeField] private InventorySystem _inventory;
+        [SerializeField] ShowInventory _inventoryui;
 
         [Header("World References")]
         [SerializeField] private ChangeBackground _changeBackground;
@@ -48,7 +52,12 @@ namespace Characters
         private void OnTriggerEnter2D(Collider2D collision)
         {
             SwitchBackGround(collision);
-            if (collision.gameObject.CompareTag("Food")) _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
+            if (collision.gameObject.CompareTag("Food"))
+            {
+                _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
+                _inventoryui.AddToUi(collision.gameObject.GetComponent<SpriteRenderer>().sprite);
+
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -79,7 +88,7 @@ namespace Characters
             {
                 _jumpTimer = Time.time + _jumpDelay;
             }
-            _animator.SetBool("onGround", _onGround);
+           // _animator.SetBool("onGround", _onGround);
             _direction = new Vector2(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(VerticalAxis));
         }
 
@@ -105,8 +114,8 @@ namespace Characters
             {
                 _rigidBody.velocity = new Vector2(Mathf.Sign(_rigidBody.velocity.x) * _maxSpeed, _rigidBody.velocity.y);
             }
-            _animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
-            _animator.SetFloat("vertical", _rigidBody.velocity.y);
+            //_animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
+            //_animator.SetFloat("vertical", _rigidBody.velocity.y);
         }
 
         /// <summary>
