@@ -22,7 +22,7 @@ namespace Assets.Food
             SpawnFood(_asiaFoodList, _asiaSpawnList);
             SpawnFood(_europeFoodList, _europeSpawnList);
             SpawnFood(_africaFoodList, _africaSpawnList);
-            //SpawnFood(_oceaniaFoodList, _oceaniaSpawnList);
+            SpawnFood(_oceaniaFoodList, _oceaniaSpawnList);
         }
 
         /// <summary>

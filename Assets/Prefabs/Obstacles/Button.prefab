@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1384554013767515654}
   - component: {fileID: 1384554013767515648}
   - component: {fileID: 1384554013767515649}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Button Base
   m_TagString: Floor
   m_Icon: {fileID: 0}
