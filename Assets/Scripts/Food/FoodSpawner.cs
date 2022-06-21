@@ -19,8 +19,8 @@ namespace Assets.Food
         [SerializeField] private List<GameObject> _africaSpawnList = new List<GameObject>();
         private void Awake()
         {
-          //  SpawnFood(_asiaFoodList, _asiaSpawnList);
-            SpawnFood(_europeFoodList, _europeSpawnList);
+           SpawnFood(_asiaFoodList, _asiaSpawnList);
+           // SpawnFood(_europeFoodList, _europeSpawnList);
             //SpawnFood(_africaFoodList, _africaSpawnList);
             //SpawnFood(_oceaniaFoodList, _oceaniaSpawnList);
         }
