@@ -26,6 +26,12 @@ namespace Characters
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _charachterHolder;
 
+        [Header("Sprites")]
+        [SerializeField] protected Sprite EuropeSprite;
+        [SerializeField] protected Sprite OceaniaSprite;
+        [SerializeField] protected Sprite AsiaSprite;
+        [SerializeField] protected Sprite AfricaSprite;
+
         [Header("Physics")]
         [SerializeField] private float _maxSpeed = 7f;
         [SerializeField] private float _linearDrag = 4f;
@@ -88,7 +94,7 @@ namespace Characters
             {
                 _jumpTimer = Time.time + _jumpDelay;
             }
-           // _animator.SetBool("onGround", _onGround);
+            // _animator.SetBool("onGround", _onGround);
             _direction = new Vector2(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(VerticalAxis));
         }
 
@@ -177,6 +183,36 @@ namespace Characters
             if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
+        protected void SwitchCharacter(BaseCharacter switchedCharacter)
+        {
+
+            Character character = (Character)PlayerPrefs.GetInt("Selection");
+            print(character);
+            switch (character)
+            {
+                case Character.europe:
+                    {
+                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = EuropeSprite;
+                        break;
+                    }
+                case Character.Oceania:
+                    {
+                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = OceaniaSprite;
+                        break;
+                    }
+                case Character.Africa:
+                    {
+                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = AfricaSprite;
+                        break;
+                    }
+                case Character.Asia:
+                    {
+                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = AsiaSprite;
+                        break;
+                    }
+            }
+        }
+
         public bool GameEnded()
         {
             // This can be placed elsewhere if neccessary, i just don't have a game manager script right now.
@@ -190,6 +226,14 @@ namespace Characters
         public void StartCooking()
         {
 
+        }
+
+        public enum Character
+        {
+            europe = 1,
+            Oceania = 2,
+            Africa = 3,
+            Asia = 4
         }
     }
 }

@@ -8,6 +8,11 @@ namespace Characters
     public class Player1 : BaseCharacter
     {
         private KeyCode jump = KeyCode.UpArrow;
+        private void Start()
+        {
+            SwitchCharacter(this);    
+        }
+
         void Update()
         {
             UpdateMovement(jump, "Horizontal1", "Vertical1");
@@ -17,6 +22,5 @@ namespace Characters
         {
             FixedMovement(jump);
         }
-
     }
 }

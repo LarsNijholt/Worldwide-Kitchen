@@ -12,7 +12,6 @@ public class MenuButtonManager : MonoBehaviour
     }
     public void SettingsButton()
     {
-        print("Penis");
     }
     public void QuitButton()
     {
