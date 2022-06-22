@@ -10,7 +10,7 @@ namespace Characters
         private KeyCode jump = KeyCode.UpArrow;
         private void Start()
         {
-            SwitchCharacter(this);    
+            SwitchCharacter(this, "Selection Player 1");    
         }
 
         void Update()

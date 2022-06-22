@@ -183,31 +183,31 @@ namespace Characters
             if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
-        protected void SwitchCharacter(BaseCharacter switchedCharacter)
+        protected void SwitchCharacter(BaseCharacter switchedCharacter, string key)
         {
-
-            Character character = (Character)PlayerPrefs.GetInt("Selection");
+            print(key);
+            Character character = (Character)PlayerPrefs.GetInt(key);
             print(character);
             switch (character)
             {
                 case Character.europe:
                     {
-                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = EuropeSprite;
+                        switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EuropeSprite;
                         break;
                     }
                 case Character.Oceania:
                     {
-                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = OceaniaSprite;
+                        switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = OceaniaSprite;
                         break;
                     }
                 case Character.Africa:
                     {
-                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = AfricaSprite;
+                        switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = AfricaSprite;
                         break;
                     }
                 case Character.Asia:
                     {
-                        switchedCharacter.gameObject.GetComponent<SpriteRenderer>().sprite = AsiaSprite;
+                        switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = AsiaSprite;
                         break;
                     }
             }
