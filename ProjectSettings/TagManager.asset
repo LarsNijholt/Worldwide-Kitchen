@@ -13,6 +13,7 @@ TagManager:
   - Platform
   - CookPot
   - Default
+  - InsideDoor
   layers:
   - Default
   - TransparentFX

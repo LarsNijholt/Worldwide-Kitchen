@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295676777084028660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.08, z: 0}
-  m_LocalScale: {x: 1.093125, y: 0.25, z: 1}
+  m_LocalPosition: {x: 0.217, y: -0.288, z: 0}
+  m_LocalScale: {x: 0.34593, y: 0.24647513, z: 0.34593}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1384554013706031884}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 49843de6fede0a842b4aa299a09c7259, type: 3}
   m_Color: {r: 1, g: 0.18927504, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1384554013767515654}
   - component: {fileID: 1384554013767515648}
   - component: {fileID: 1384554013767515649}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Button Base
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -145,8 +145,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384554013767515655}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.33, z: 0}
-  m_LocalScale: {x: 1.9875, y: 0.25, z: 1}
+  m_LocalPosition: {x: 0.239, y: -0.27, z: 0}
+  m_LocalScale: {x: 0.40304685, y: 0.175, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1384554013706031884}
@@ -192,8 +192,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: c3578228446bbb84b9433bdeda85d7ba, type: 3}
   m_Color: {r: 0.5283019, g: 0.4566069, b: 0.29106444, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -217,18 +217,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.60354066, y: -0.34751225}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 19.2, y: 10.8}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.923038, y: 1.4169965}
   m_EdgeRadius: 0
 --- !u!1 &1384554013893500508
 GameObject:
@@ -257,8 +257,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384554013893500508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.08, z: 0}
-  m_LocalScale: {x: 1.093125, y: 0.25, z: 1}
+  m_LocalPosition: {x: 0.217, y: -0.288, z: 0}
+  m_LocalScale: {x: 0.34593, y: 0.24647513, z: 0.34593}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1384554013706031884}
@@ -276,7 +276,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d156616569d39346ac4c61b9ffe20df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _doorToOpen: {fileID: 708393653172154372}
+  _btnDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _btnUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &1384554013893500505
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -318,7 +323,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2da4abdfd49de2f4b923437233e954f6, type: 3}
   m_Color: {r: 0.049501523, g: 0.9716981, b: 0.09131925, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -342,18 +347,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.5830159, y: 0.84383595}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 19.2, y: 10.8}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.4252157, y: 1.0511365}
   m_EdgeRadius: 0
 --- !u!1001 &3462788390546902697
 PrefabInstance:
@@ -413,17 +418,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5689496550715350722, guid: 7ddc8718e1752614a842e93de381c8dd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7ddc8718e1752614a842e93de381c8dd, type: 3}
---- !u!114 &708393653172154372 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4168912651370544813, guid: 7ddc8718e1752614a842e93de381c8dd, type: 3}
-  m_PrefabInstance: {fileID: 3462788390546902697}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183e401141f527347ad184aef2f37647, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &9150027216268546153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5689496550715350720, guid: 7ddc8718e1752614a842e93de381c8dd, type: 3}

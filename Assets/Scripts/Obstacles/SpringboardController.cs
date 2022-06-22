@@ -6,13 +6,11 @@ public class SpringboardController : MonoBehaviour
 {
     [SerializeField] private float _springForce;
 
-    private SpriteRenderer _renderer;
+    [SerializeField] private GameObject _springIn;
+    [SerializeField] private GameObject _springOut;
     private float _cooldown = 0.2f;
     private float _cooldownTimer;
-    private void Awake()
-    {
-        _renderer = GetComponent<SpriteRenderer>();
-    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) Launch(collision.gameObject);
@@ -25,7 +23,8 @@ public class SpringboardController : MonoBehaviour
             player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             player.GetComponent<Rigidbody2D>().AddForce(transform.up * _springForce, ForceMode2D.Force);
             _cooldownTimer = _cooldown;
-            _renderer.color = Color.red;
+            _springOut.SetActive(true);
+            _springIn.SetActive(false);
         }
     }
 
@@ -34,6 +33,9 @@ public class SpringboardController : MonoBehaviour
         if (_cooldownTimer > 0)
             _cooldownTimer -= Time.deltaTime;
         else
-            _renderer.color = Color.yellow;
+        {
+            _springOut.SetActive(false);
+            _springIn.SetActive(true);
+        }
     }
 }
