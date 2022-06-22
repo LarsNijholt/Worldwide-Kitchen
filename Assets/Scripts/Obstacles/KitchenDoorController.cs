@@ -15,17 +15,16 @@ public class KitchenDoorController : MonoBehaviour
     private Animator _animator;
     private CameraController _cameraController;
 
+    [SerializeField] private Camera _camera;
+
     private bool _faded;
-    private bool _insideKitchen;
 
     private Vector3 _insideCamPos = new Vector3(179.5f, 5.43f, -10);
-
-    private void Awake()
+    private void Start()
     {
+        _cameraController = _camera.GetComponent<CameraController>();
         _animator = _fadeUI.GetComponent<Animator>();
-        _cameraController = Camera.main.GetComponent<CameraController>();
     }
-
     public void InteractDoor() { StartCoroutine(Fade()); }
 
     private IEnumerator Fade()
@@ -58,11 +57,11 @@ public class KitchenDoorController : MonoBehaviour
         _cameraController.enabled = false;
 
         _cameraController.gameObject.transform.position = _insideCamPos;
-        Camera.main.orthographicSize = 3.7f;
+        _camera.orthographicSize = 3.7f;
     }
     private void OutsideView()
     {
-        Camera.main.orthographicSize = 7.001f;
+        _camera.orthographicSize = 7.001f;
         _cameraController.enabled = true;
     }
 }
