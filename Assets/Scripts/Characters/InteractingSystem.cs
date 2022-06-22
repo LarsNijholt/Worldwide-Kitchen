@@ -10,6 +10,7 @@ public class InteractingSystem : MonoBehaviour
     [SerializeField] private Transform _contentHolder;
     [SerializeField] private Transform _inactiveElements;
     [SerializeField] private RectTransform _interactPopup;
+    [SerializeField] private RectTransform _interactPrePopup;
     [SerializeField] private UnityEvent _startInteraction;
     [SerializeField] private UnityEvent _stopInteraction;
 
@@ -24,8 +25,8 @@ public class InteractingSystem : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _collided++;
-            if (_collided == 1) Invoke("ShowPopup", 0f);
-            //Invoke(_collided == 1 ? "ShowPopup" : "HidePopup", 0f);
+            if (_collided == 1) Invoke("ShowPrePopup", 0f);
+            if (_collided == 2) Invoke("ShowPopup", 0f);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -33,9 +34,15 @@ public class InteractingSystem : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _collided--;
-            if (_collided == 0) Invoke("HidePopup", 0f);
-            //Invoke(_collided == 0 ? "ShowPopup" : "HidePopup", 0f);
+            if (_collided == 1) Invoke("ShowPrePopup", 0f);      
+            if (_collided == 0) Invoke("HidePopup", 0f);      
         }
+    }
+    private void ShowPrePopup()
+    {
+        _interactPopup.transform.SetParent(_inactiveElements.transform);
+        _canInteract = false;
+        _interactPrePopup.transform.SetParent(_contentHolder.transform);
     }
     private void ShowPopup()
     {
@@ -44,6 +51,7 @@ public class InteractingSystem : MonoBehaviour
         {
             _interactPopup.localPosition = new Vector2(_interactPopup.localPosition.x, _interactPopup.localPosition.y + _textOffset);
         }
+        _interactPrePopup.transform.SetParent(_inactiveElements.transform);
         _interactPopup.transform.SetParent(_contentHolder.transform);
 
         _canInteract = true;
@@ -61,6 +69,7 @@ public class InteractingSystem : MonoBehaviour
 
         _interactPopup.position = new Vector2(_innatePosition.x, _innatePosition.y);
         _interactPopup.transform.SetParent(_inactiveElements.transform);
+        _interactPrePopup.transform.SetParent(_inactiveElements.transform);
 
         _canInteract = false;
         InteractionStopped();
