@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7778292250046773471}
   - component: {fileID: 6252115923306166668}
   - component: {fileID: 7273092736989076429}
-  - component: {fileID: 2104767645035609801}
+  - component: {fileID: 4584515969103513958}
   m_Layer: 0
   m_Name: FoodItem-Chilipeper
   m_TagString: Food
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7922968150851707363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28, y: -5, z: -1.0879964}
+  m_LocalPosition: {x: -70.5, y: -29.5, z: -1.0879964}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &2104767645035609801
+--- !u!114 &4584515969103513958
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

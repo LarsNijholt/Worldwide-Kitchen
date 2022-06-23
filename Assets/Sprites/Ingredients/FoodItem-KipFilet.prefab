@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7471742361894668866}
   - component: {fileID: 7471742361894668877}
   - component: {fileID: 7471742361894668876}
-  - component: {fileID: -7157221392887454780}
+  - component: {fileID: 5871478984626742602}
   m_Layer: 0
   m_Name: FoodItem-KipFilet
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &-7157221392887454780
+--- !u!114 &5871478984626742602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

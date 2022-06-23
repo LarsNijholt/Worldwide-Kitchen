@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5706298008800668046}
   - component: {fileID: 3515186625844900306}
   - component: {fileID: 7023167549563097428}
-  - component: {fileID: -5259348066841974310}
+  - component: {fileID: 6931540287170740641}
   m_Layer: 0
   m_Name: FoodItem-Wortel
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &-5259348066841974310
+--- !u!114 &6931540287170740641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

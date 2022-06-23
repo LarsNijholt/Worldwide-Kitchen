@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2524602842529660710}
   - component: {fileID: 2524602842529660709}
   - component: {fileID: 2524602842529660708}
-  - component: {fileID: 1729316617290057804}
+  - component: {fileID: 1392750698726475060}
   m_Layer: 0
   m_Name: FoodItem-Onion
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &1729316617290057804
+--- !u!114 &1392750698726475060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +7,11 @@ namespace Assets.UI
 {
     public class CharacterSelect : MonoBehaviour
     {
-        [SerializeField] private Sprite _europeSprite;
-        [SerializeField] private Sprite _oceaniaSprite;
-        [SerializeField] private Sprite _africaSprite;
-        [SerializeField] private Sprite _asiaSprite;
         [SerializeField] private List<Button> _playerOneButtons;
         [SerializeField] private List<Button> _playerTwoButtons;
-        public Selection _selection = Selection.none;
+        [SerializeField] private TMP_Text _selectText;
 
+        public Selection _selection = Selection.none;
         string key = "Selection Player 1";
 
         public void SelectEurope()
@@ -59,24 +56,19 @@ namespace Assets.UI
             if(toggle)
             {
                 key = "Selection Player 2";
+                _selectText.text = "Player 2 please select your character";
                 toggle = false;
             }
             else
             {
                 key = "Selection Player 1";
+                _selectText.text = "Player 1 please select your character";
                 toggle = true;
             }
-           
         }
-
-        public Sprite GetEuropeSprite() { return _europeSprite; }
-        public Sprite GetAsiaSprite() { return _asiaSprite; }
-        public Sprite GetAfricaSprite() { return _africaSprite; }
-        public Sprite GetOceaniaSprite() { return _oceaniaSprite; }
 
         private void StoreSelection(string selectionKey)
         {
-            print(key);
             PlayerPrefs.SetInt(selectionKey, (int)_selection);
         }
 

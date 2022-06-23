@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 895183192891435776}
   - component: {fileID: 895183192891435777}
   - component: {fileID: 895183192891435779}
-  - component: {fileID: 5035048976339797853}
+  - component: {fileID: 5273315421521932373}
   m_Layer: 0
   m_Name: FoodItem-Butter
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &5035048976339797853
+--- !u!114 &5273315421521932373
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

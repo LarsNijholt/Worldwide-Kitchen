@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5690507581214480004}
   - component: {fileID: 5690507581214480005}
   - component: {fileID: 5690507581214480006}
-  - component: {fileID: 5930606813509165646}
+  - component: {fileID: 4123505426909535042}
   m_Layer: 0
   m_Name: FoodItem-Spinazie
   m_TagString: Food
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5690507581214480007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.5, y: 59.5, z: 0.07642253}
+  m_LocalPosition: {x: 79, y: 2, z: 0.07642253}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &5930606813509165646
+--- !u!114 &4123505426909535042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

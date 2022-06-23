@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6597498171212565176}
   - component: {fileID: 6597498171212565159}
   - component: {fileID: 6597498171212565158}
-  - component: {fileID: -2514784025490030680}
+  - component: {fileID: -4944898941931479690}
   m_Layer: 0
   m_Name: FoodItem-Sperzieboon
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &-2514784025490030680
+--- !u!114 &-4944898941931479690
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

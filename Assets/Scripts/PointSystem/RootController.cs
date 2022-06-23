@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RootController : MonoBehaviour
 {
-    [HideInInspector] public int toolbarInt;
-    [HideInInspector] public bool loop;
-    [HideInInspector] public bool pingpong;
-    [HideInInspector] public bool oneway;
+    [HideInInspector] public int ToolbarInt;
+    [HideInInspector] public bool Loop;
+    [HideInInspector] public bool PingPong;
+    [HideInInspector] public bool Oneway;
 
     private void OnValidate()
     {

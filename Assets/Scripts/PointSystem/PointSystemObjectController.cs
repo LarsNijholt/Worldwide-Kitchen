@@ -1,58 +1,63 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class PointSystemObjectController : MonoBehaviour
 {
-    public Transform myAreaRoot;
-    private RootController _myRootController;
-    private PointEventSystem _myPointEvents;
     [SerializeField] private float speed;
 
-    private List<Point> _areaPoints = new List<Point>();
+    public Transform MyAreaRoot;
 
+    private RootController _myRootController;
+    private PointEventSystem _myPointEvents;
+    private List<Point> _areaPoints = new List<Point>();
     private bool _canMove;
     private bool _goBack;
     private Vector2 _destination;
+    private Vector2 _pos;
 
     private int _iteration = 0;
     
     private void Awake()
     {
-        for (int i = 0; i < myAreaRoot.childCount; i++)
+        SetRoot();
+        for (int i = 0; i < MyAreaRoot.childCount; i++)
         {
-            _areaPoints.Add(myAreaRoot.GetChild(i).GetComponent<Point>());
+            _areaPoints.Add(MyAreaRoot.GetChild(i).GetComponent<Point>());
         }
         transform.position = _areaPoints[0].transform.position;
-
-        _myRootController = myAreaRoot.GetComponent<RootController>();
-        _myPointEvents = myAreaRoot.GetComponent<PointEventSystem>();
-
-        if (_myPointEvents.goOnAwake)
+        _myRootController = MyAreaRoot.GetComponent<RootController>();
+        _myPointEvents = MyAreaRoot.GetComponent<PointEventSystem>();
+        if (_myPointEvents.GoOnAwake)
         {
             SetDestination(_areaPoints[_iteration]);
             StartMoving();
         }
     }
-    private Vector2 _pos;
+
+    private void SetRoot()
+    {
+        GameObject parent = this.gameObject.transform.parent.gameObject;
+        MyAreaRoot = parent.transform.GetChild(0).transform;
+    }
     
     private void SetDestination(Point point)
     {
         if (_goBack == true)
         {
-            _pos = point.previousPoint.transform.localPosition;
+            _pos = point.PreviousPoint.transform.localPosition;
         }
         else
         {
-            _pos = point.nextPoint.transform.localPosition;
+            _pos = point.NextPoint.transform.localPosition;
         }
         _destination = new Vector2(_pos.x, _pos.y);
     }
+
     private void Update()
     {
         if (_canMove) MoveTo();
     }
+
     private void MoveTo()
     {
         float dist = Vector2.Distance(_destination, transform.localPosition);
@@ -73,13 +78,13 @@ public class PointSystemObjectController : MonoBehaviour
             }
             catch
             {
-                if (_myRootController.loop)
+                if (_myRootController.Loop)
                 {
                     _myPointEvents.Loop();
                     _iteration = 0;
                     SetDestination(_areaPoints[_iteration]);
                 }
-                else if (_myRootController.pingpong)
+                else if (_myRootController.PingPong)
                 {
                     switch (_goBack)
                     {
@@ -124,9 +129,9 @@ public class PointSystemObjectController : MonoBehaviour
         _goBack = false;
         _iteration = 0;
         SetDestination(_areaPoints[_iteration]);
-
         transform.position = _areaPoints[0].transform.position;
     }
+
     public void SetCanMove(bool input)
     {
         _canMove = input;

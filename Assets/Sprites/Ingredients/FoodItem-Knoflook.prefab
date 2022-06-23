@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 115571389642459067}
   - component: {fileID: 115571389642459064}
   - component: {fileID: 115571389642459065}
-  - component: {fileID: 8316710145293353291}
+  - component: {fileID: -7240461600888975295}
   m_Layer: 0
   m_Name: FoodItem-Knoflook
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &8316710145293353291
+--- !u!114 &-7240461600888975295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

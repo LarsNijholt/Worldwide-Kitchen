@@ -18,6 +18,7 @@ namespace Assets.World
 
         private bool _faded;
         private bool _transitioning;
+
         /// <summary>
         /// Switches out the background based on where the player is
         /// </summary>

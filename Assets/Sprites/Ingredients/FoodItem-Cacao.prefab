@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5899539764630273877}
   - component: {fileID: 5899539764630273876}
   - component: {fileID: 5899539764630273883}
-  - component: {fileID: 4780417943621943454}
+  - component: {fileID: -7814493799626390104}
   m_Layer: 0
   m_Name: FoodItem-Cacao
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &4780417943621943454
+--- !u!114 &-7814493799626390104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

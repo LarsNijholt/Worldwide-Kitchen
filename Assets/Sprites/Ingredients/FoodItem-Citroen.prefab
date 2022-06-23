@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8226585814548608377}
   - component: {fileID: 8226585814548608376}
   - component: {fileID: 8226585814548608383}
-  - component: {fileID: -8795870899586632925}
+  - component: {fileID: -5202894041169281862}
   m_Layer: 0
   m_Name: FoodItem-Citroen
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &-8795870899586632925
+--- !u!114 &-5202894041169281862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

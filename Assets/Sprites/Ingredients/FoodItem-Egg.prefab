@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1689067268991778292}
   - component: {fileID: 1689067268991778299}
   - component: {fileID: 1689067268991778298}
-  - component: {fileID: 4625584030337470705}
+  - component: {fileID: -4116843611679130459}
   m_Layer: 0
   m_Name: FoodItem-Egg
   m_TagString: Food
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &4625584030337470705
+--- !u!114 &-4116843611679130459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

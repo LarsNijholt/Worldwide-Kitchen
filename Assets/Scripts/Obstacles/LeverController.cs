@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -30,7 +28,6 @@ public class LeverController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) _state = !_state;
-
         if (_state)
         {
             _onSprite.SetActive(true);
@@ -42,9 +39,7 @@ public class LeverController : MonoBehaviour
         {
             _onSprite.SetActive(false);
             _offSprite.SetActive(true);
-
             FlickOff.Invoke();
         }
-
     }
 }

@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inventory: []
-  _maxInventoryAmount: 10
+  _maxInventoryAmount: 6
