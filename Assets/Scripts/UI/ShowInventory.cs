@@ -24,6 +24,8 @@ namespace Assets.UI
             _itemImages.Add(imageToAdd);
             for (int i = 0; i < _UiImages.Count; i++)
             {
+                if (_itemImages[i] == null) return;
+                _UiImages[i].gameObject.SetActive(true);
                 _UiImages[i].sprite = _itemImages[i];
             }
         }
