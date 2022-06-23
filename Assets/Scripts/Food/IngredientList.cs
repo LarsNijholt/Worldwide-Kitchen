@@ -1,7 +1,5 @@
 using Assets.Inventory;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.Food
@@ -10,8 +8,10 @@ namespace Assets.Food
     {
         [SerializeField] private List<BaseIngredient> _allIngredients;
         [SerializeField] private InventorySystem _playerInventory;
-        private BaseIngredient _foodToCook;
         [SerializeField] private int _rating = 0; //Placeholder until we have a better rating method.
+
+        private BaseIngredient _foodToCook;
+
         private void Awake()
         {
            InitializeList();
@@ -23,11 +23,6 @@ namespace Assets.Food
             print(selectFood);
             _foodToCook = _allIngredients[selectFood];
             print(_foodToCook);
-        }
-
-        public List<BaseIngredient> GetIngredients()
-        {
-            return _allIngredients;
         }
 
         public void GetRated()
@@ -45,6 +40,7 @@ namespace Assets.Food
             }
         }
 
+        public List<BaseIngredient> GetIngredients() { return _allIngredients; }
         public int GetRating() { return _rating; }
     } 
 }

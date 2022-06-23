@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +16,7 @@ namespace Assets.Food
 
         [SerializeField] private List<GameObject> _africaFoodList = new List<GameObject>();
         [SerializeField] private List<GameObject> _africaSpawnList = new List<GameObject>();
+
         private void Awake()
         {
             SpawnFood(_asiaFoodList, _asiaSpawnList);

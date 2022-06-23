@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpringboardController : MonoBehaviour
 {
     [SerializeField] private float _springForce;
-
     [SerializeField] private GameObject _springIn;
     [SerializeField] private GameObject _springOut;
+
     private float _cooldown = 0.2f;
     private float _cooldownTimer;
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters
@@ -7,6 +5,7 @@ namespace Characters
     public class Player1 : BaseCharacter
     {
         private KeyCode jump = KeyCode.UpArrow;
+
         private void Start()
         {
             SwitchCharacter(this, "Selection Player 1");    

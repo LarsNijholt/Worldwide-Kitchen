@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,8 +10,8 @@ namespace Assets.UI
         [SerializeField] private List<Button> _playerOneButtons;
         [SerializeField] private List<Button> _playerTwoButtons;
         [SerializeField] private TMP_Text _selectText;
-        public Selection _selection = Selection.none;
 
+        public Selection _selection = Selection.none;
         string key = "Selection Player 1";
 
         public void SelectEurope()
@@ -66,12 +65,10 @@ namespace Assets.UI
                 _selectText.text = "Player 1 please select your character";
                 toggle = true;
             }
-           
         }
 
         private void StoreSelection(string selectionKey)
         {
-            print(key);
             PlayerPrefs.SetInt(selectionKey, (int)_selection);
         }
 
