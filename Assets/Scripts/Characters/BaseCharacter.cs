@@ -44,8 +44,8 @@ namespace Characters
         [SerializeField] private Vector3 _colliderOffset;
 
         [Header("Inventory")]
-        [SerializeField] private InventorySystem _inventory;
-        [SerializeField] ShowInventory _inventoryui;
+        [SerializeField] protected InventorySystem _inventory;
+        [SerializeField] protected ShowInventory _inventoryui;
 
         [Header("World References")]
         [SerializeField] private ChangeBackground _changeBackground;
@@ -62,7 +62,6 @@ namespace Characters
             {
                 _inventory.AddToInventory(collision.gameObject.GetComponent<BaseIngredient>());
                 _inventoryui.AddToUi(collision.gameObject.GetComponent<SpriteRenderer>().sprite);
-
             }
         }
 
@@ -174,7 +173,7 @@ namespace Characters
         /// <summary>
         /// Switches out the background.
         /// </summary>
-        private void SwitchBackGround(Collider2D collision)
+        protected void SwitchBackGround(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Europe")) _changeBackground.UpdateBackGround(0);
             if (collision.gameObject.CompareTag("Africa")) _changeBackground.UpdateBackGround(1);
