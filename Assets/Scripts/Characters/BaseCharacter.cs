@@ -1,7 +1,6 @@
 using Assets.Food;
 using Assets.Inventory;
 using Assets.World;
-using System.Collections.Generic;
 using Assets.UI;
 using UnityEngine;
 
@@ -72,6 +71,7 @@ namespace Characters
                 this.transform.SetParent(collision.gameObject.transform);
             }
         }
+
         private void OnCollisionExit2D(Collision2D collision)
         {
             Rigidbody2D rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
@@ -182,6 +182,9 @@ namespace Characters
             if (collision.gameObject.CompareTag("Default")) _changeBackground.UpdateBackGround(4);
         }
 
+        /// <summary>
+        /// Changes player character into character selected from beginning.
+        /// </summary>
         protected void SwitchCharacter(BaseCharacter switchedCharacter, string key)
         {
             print(key);

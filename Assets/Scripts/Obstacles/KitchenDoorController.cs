@@ -1,38 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.UI;
 
 public class KitchenDoorController : MonoBehaviour
 {
     [SerializeField] private GameObject _player1;
     [SerializeField] private GameObject _player2;
     [SerializeField] private GameObject _linkedDoor;
-
     [SerializeField] private GameObject _fadeUI;
+    [SerializeField] private Camera _camera;
 
     private Animator _animator;
     private CameraController _cameraController;
-
-    [SerializeField] private Camera _camera;
-
     private bool _faded;
-
     private Vector3 _insideCamPos = new Vector3(179.5f, 5.43f, -10);
+
     private void Start()
     {
         _cameraController = _camera.GetComponent<CameraController>();
         _animator = _fadeUI.GetComponent<Animator>();
     }
+
     public void InteractDoor() { StartCoroutine(Fade()); }
 
     private IEnumerator Fade()
     {
-        if (_faded == false)
-            _animator.SetBool("Faded", true);
-        else
-            _animator.SetBool("Faded", false);
+        if (_faded == false) _animator.SetBool("Faded", true);
+        else _animator.SetBool("Faded", false);
 
         if (_faded == false)
         {
@@ -55,10 +48,10 @@ public class KitchenDoorController : MonoBehaviour
     private void InsideView()
     {
         _cameraController.enabled = false;
-
         _cameraController.gameObject.transform.position = _insideCamPos;
         _camera.orthographicSize = 3.7f;
     }
+
     private void OutsideView()
     {
         _camera.orthographicSize = 7.001f;

@@ -20,17 +20,17 @@ public class PointGyzmoDrawer : MonoBehaviour
 
         Gizmos.DrawSphere(point.transform.position, 0.1f);
 
-        if (point.previousPoint != null)
+        if (point.PreviousPoint != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(point.transform.position, point.previousPoint.transform.position);
+            Gizmos.DrawLine(point.transform.position, point.PreviousPoint.transform.position);
         }
-        if (point.nextPoint != null)
+        if (point.NextPoint != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(point.transform.position, point.nextPoint.transform.position);
+            Gizmos.DrawLine(point.transform.position, point.NextPoint.transform.position);
 
-            Vector2 posOnLine = Vector2.Lerp(point.transform.position, point.nextPoint.transform.position, 0.1f);
+            Vector2 posOnLine = Vector2.Lerp(point.transform.position, point.NextPoint.transform.position, 0.1f);
             Vector2 from = new Vector2(posOnLine.x - 0.1f, posOnLine.y);
             Vector2 to = new Vector2(posOnLine.x + 0.1f, posOnLine.y);
 

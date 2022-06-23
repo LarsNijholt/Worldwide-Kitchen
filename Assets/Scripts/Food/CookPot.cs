@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Food
 {
     public class CookPot : MonoBehaviour
     {
-        private bool _canInteract;
-
         [SerializeField] private IngredientList _ingredientList;
+
+        private bool _canInteract;
         string Cooking;
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -25,7 +23,6 @@ namespace Assets.Food
                 _canInteract = false;
             }
         }
-      
 
         private void Update()
         {

@@ -34,9 +34,7 @@ public class SceneController : MonoBehaviour
     public void AsyncLoadScene(string sceneName)
     {
         _sceneName = sceneName;
-
         _currentScene = SceneManager.GetActiveScene();
-
         _asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         _asyncOperation.allowSceneActivation = false;
     }
@@ -44,9 +42,7 @@ public class SceneController : MonoBehaviour
     private void AsyncOperationOnCompleted(AsyncOperation obj)
     {
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(_sceneName));
-
         SceneManager.UnloadSceneAsync(_currentScene);
-
         _asyncOperation.completed -= AsyncOperationOnCompleted;
     }
 }

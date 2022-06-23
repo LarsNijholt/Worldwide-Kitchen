@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,10 +12,8 @@ public class InteractingSystem : MonoBehaviour
     [SerializeField] private UnityEvent _startInteraction;
     [SerializeField] private UnityEvent _stopInteraction;
 
-
     private bool _canInteract;
     private bool _currentlyInteracting;
-
     private int _collided;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,6 +25,7 @@ public class InteractingSystem : MonoBehaviour
             if (_collided == 2) Invoke("ShowPopup", 0f);
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -38,12 +35,14 @@ public class InteractingSystem : MonoBehaviour
             if (_collided == 0) Invoke("HidePopup", 0f);      
         }
     }
+
     private void ShowPrePopup()
     {
         _interactPopup.transform.SetParent(_inactiveElements.transform);
         _canInteract = false;
         _interactPrePopup.transform.SetParent(_contentHolder.transform);
     }
+
     private void ShowPopup()
     {
         _interactPopup.localPosition = new Vector2(_innatePosition.x, _innatePosition.y);
@@ -53,9 +52,9 @@ public class InteractingSystem : MonoBehaviour
         }
         _interactPrePopup.transform.SetParent(_inactiveElements.transform);
         _interactPopup.transform.SetParent(_contentHolder.transform);
-
         _canInteract = true;
     }
+
     private void HidePopup()
     {
         for (int i = 0; i < _contentHolder.childCount; i++)
@@ -70,7 +69,6 @@ public class InteractingSystem : MonoBehaviour
         _interactPopup.position = new Vector2(_innatePosition.x, _innatePosition.y);
         _interactPopup.transform.SetParent(_inactiveElements.transform);
         _interactPrePopup.transform.SetParent(_inactiveElements.transform);
-
         _canInteract = false;
         InteractionStopped();
     }

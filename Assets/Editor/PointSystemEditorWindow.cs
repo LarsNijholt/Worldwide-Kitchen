@@ -37,7 +37,7 @@ public class PointSystemEditorWindow : EditorWindow
                 return;
             }
             _thisRootController = Root.gameObject.GetComponent<RootController>();
-            _toolbarInt = _thisRootController.toolbarInt;
+            _toolbarInt = _thisRootController.ToolbarInt;
 
             PointEditor();
 
@@ -108,11 +108,11 @@ public class PointSystemEditorWindow : EditorWindow
         Point areaPoint = areaPointObject.GetComponent<Point>();
         if (Root.childCount > 1)
         {
-            areaPoint.previousPoint = Root.GetChild(Root.childCount - 2).GetComponent<Point>();
-            areaPoint.previousPoint.nextPoint = areaPoint;
+            areaPoint.PreviousPoint = Root.GetChild(Root.childCount - 2).GetComponent<Point>();
+            areaPoint.PreviousPoint.NextPoint = areaPoint;
 
-            areaPoint.transform.position = areaPoint.previousPoint.transform.position;
-            areaPoint.transform.forward = areaPoint.previousPoint.transform.forward;
+            areaPoint.transform.position = areaPoint.PreviousPoint.transform.position;
+            areaPoint.transform.forward = areaPoint.PreviousPoint.transform.forward;
         }
         else
         {
@@ -120,8 +120,8 @@ public class PointSystemEditorWindow : EditorWindow
         }
         if (_toolbarInt == 0)
         {
-            _firstPoint.previousPoint = Root.GetChild(Root.childCount - 1).GetComponent<Point>();
-            Root.GetChild(Root.childCount - 1).GetComponent<Point>().nextPoint = _firstPoint;
+            _firstPoint.PreviousPoint = Root.GetChild(Root.childCount - 1).GetComponent<Point>();
+            Root.GetChild(Root.childCount - 1).GetComponent<Point>().NextPoint = _firstPoint;
         }
 
         Selection.activeGameObject = areaPoint.gameObject;
@@ -138,12 +138,12 @@ public class PointSystemEditorWindow : EditorWindow
         areaPoint.transform.position = selectedAreaPoint.transform.position;
         areaPoint.transform.forward = selectedAreaPoint.transform.forward;
 
-        areaPoint.previousPoint = selectedAreaPoint.previousPoint;
-        if (selectedAreaPoint.previousPoint != null)
-            selectedAreaPoint.previousPoint.nextPoint = areaPoint;
+        areaPoint.PreviousPoint = selectedAreaPoint.PreviousPoint;
+        if (selectedAreaPoint.PreviousPoint != null)
+            selectedAreaPoint.PreviousPoint.NextPoint = areaPoint;
 
-        areaPoint.nextPoint = selectedAreaPoint;
-        selectedAreaPoint.previousPoint = areaPoint;
+        areaPoint.NextPoint = selectedAreaPoint;
+        selectedAreaPoint.PreviousPoint = areaPoint;
 
         areaPoint.transform.SetSiblingIndex(selectedAreaPoint.transform.GetSiblingIndex());
 
@@ -161,19 +161,19 @@ public class PointSystemEditorWindow : EditorWindow
         areaPoint.transform.position = selectedAreaPoint.transform.position;
         areaPoint.transform.forward = selectedAreaPoint.transform.forward;
 
-        areaPoint.previousPoint = selectedAreaPoint;
-        if (selectedAreaPoint.nextPoint == null)
+        areaPoint.PreviousPoint = selectedAreaPoint;
+        if (selectedAreaPoint.NextPoint == null)
         {
-            Root.GetChild(0).GetComponent<Point>().previousPoint = areaPoint;
+            Root.GetChild(0).GetComponent<Point>().PreviousPoint = areaPoint;
         }
         else
         {
-            areaPoint.nextPoint = selectedAreaPoint.nextPoint;
-            selectedAreaPoint.nextPoint.previousPoint = areaPoint;
+            areaPoint.NextPoint = selectedAreaPoint.NextPoint;
+            selectedAreaPoint.NextPoint.PreviousPoint = areaPoint;
         }
 
-        selectedAreaPoint.nextPoint = areaPoint;
-        areaPoint.previousPoint = selectedAreaPoint;
+        selectedAreaPoint.NextPoint = areaPoint;
+        areaPoint.PreviousPoint = selectedAreaPoint;
 
         areaPoint.transform.SetSiblingIndex(selectedAreaPoint.transform.GetSiblingIndex() + 1);
 
@@ -184,59 +184,59 @@ public class PointSystemEditorWindow : EditorWindow
     {
         Point selectedAreaPoint = Selection.activeGameObject.GetComponent<Point>();
 
-        if (selectedAreaPoint.nextPoint == null)
+        if (selectedAreaPoint.NextPoint == null)
         {
-            selectedAreaPoint.previousPoint.nextPoint = Root.GetChild(0).GetComponent<Point>();
-            Root.GetChild(0).GetComponent<Point>().previousPoint = selectedAreaPoint.previousPoint;
+            selectedAreaPoint.PreviousPoint.NextPoint = Root.GetChild(0).GetComponent<Point>();
+            Root.GetChild(0).GetComponent<Point>().PreviousPoint = selectedAreaPoint.PreviousPoint;
         }
         else
         {
-            selectedAreaPoint.nextPoint.previousPoint = selectedAreaPoint.previousPoint;
+            selectedAreaPoint.NextPoint.PreviousPoint = selectedAreaPoint.PreviousPoint;
 
-            if (selectedAreaPoint.previousPoint != null)
-                selectedAreaPoint.previousPoint.nextPoint = selectedAreaPoint.nextPoint;
+            if (selectedAreaPoint.PreviousPoint != null)
+                selectedAreaPoint.PreviousPoint.NextPoint = selectedAreaPoint.NextPoint;
         }
 
-        if (selectedAreaPoint.previousPoint != null)
-            Selection.activeGameObject = selectedAreaPoint.previousPoint.gameObject;
+        if (selectedAreaPoint.PreviousPoint != null)
+            Selection.activeGameObject = selectedAreaPoint.PreviousPoint.gameObject;
         else
-            Selection.activeGameObject = selectedAreaPoint.nextPoint.gameObject;
+            Selection.activeGameObject = selectedAreaPoint.NextPoint.gameObject;
 
         DestroyImmediate(selectedAreaPoint.gameObject);
     }
 
     private void LoopWaypoints()
     {
-        _thisRootController.loop = true;
-        _thisRootController.pingpong = false;
-        _thisRootController.oneway = false;
-        _thisRootController.toolbarInt = 0;
+        _thisRootController.Loop = true;
+        _thisRootController.PingPong = false;
+        _thisRootController.Oneway = false;
+        _thisRootController.ToolbarInt = 0;
 
-        Root.GetChild(Root.childCount - 1).GetComponent<Point>().nextPoint = _firstPoint;
+        Root.GetChild(Root.childCount - 1).GetComponent<Point>().NextPoint = _firstPoint;
         _thisRootController.ValidateEditor();
     }
 
     private void PingPongWaypoints()
     {
-        _thisRootController.loop = false;
-        _thisRootController.pingpong = true;
-        _thisRootController.oneway = false;
-        _thisRootController.toolbarInt = 1;
+        _thisRootController.Loop = false;
+        _thisRootController.PingPong = true;
+        _thisRootController.Oneway = false;
+        _thisRootController.ToolbarInt = 1;
 
-        _firstPoint.previousPoint = null;
-        Root.GetChild(Root.childCount - 1).GetComponent<Point>().nextPoint = null;
+        _firstPoint.PreviousPoint = null;
+        Root.GetChild(Root.childCount - 1).GetComponent<Point>().NextPoint = null;
         _thisRootController.ValidateEditor();
     }
 
     private void OneWayWaypoints()
     {
-        _thisRootController.loop = false;
-        _thisRootController.pingpong = false;
-        _thisRootController.oneway = true;
-        _thisRootController.toolbarInt = 2;
+        _thisRootController.Loop = false;
+        _thisRootController.PingPong = false;
+        _thisRootController.Oneway = true;
+        _thisRootController.ToolbarInt = 2;
 
-        _firstPoint.previousPoint = null;
-        Root.GetChild(Root.childCount - 1).GetComponent<Point>().nextPoint = null;
+        _firstPoint.PreviousPoint = null;
+        Root.GetChild(Root.childCount - 1).GetComponent<Point>().NextPoint = null;
         _thisRootController.ValidateEditor();
     }
     #endregion
