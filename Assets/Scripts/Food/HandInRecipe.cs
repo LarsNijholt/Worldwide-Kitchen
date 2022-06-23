@@ -5,9 +5,14 @@ using UnityEngine;
 public class HandInRecipe : MonoBehaviour
 {
     public GameObject _recipeHandIn;
+    // reference to inventory
     public void YesButton()
     {
-        print("yes");
+        // Check all ingredients in inventory
+        // Get like 100 points for every right ingredient
+        // for every minute subtract like 10 points
+        // display points and time
+
     }
     public void NoButton()
     {
