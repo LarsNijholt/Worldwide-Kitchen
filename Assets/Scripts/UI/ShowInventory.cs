@@ -22,8 +22,12 @@ namespace Assets.UI
         public void AddToUi(Sprite imageToAdd)
         {
             _itemImages.Add(imageToAdd);
-            for (int i = 0; i < _UiImages.Count; i++)
+            print(_itemImages.Count);
+            for (int i = 0; i < _itemImages.Count; i++)
             {
+                print(i);
+                if (i >= _UiImages.Count) return;
+                _UiImages[i].gameObject.SetActive(true);
                 _UiImages[i].sprite = _itemImages[i];
             }
         }
