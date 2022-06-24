@@ -67,6 +67,11 @@ namespace Assets.UI
             }
         }
 
+        public void LoadLevelScene()
+        {
+            SceneController.Instance.EnableScene();
+        }
+
         private void StoreSelection(string selectionKey)
         {
             PlayerPrefs.SetInt(selectionKey, (int)_selection);
