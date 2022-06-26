@@ -1,17 +1,52 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
+using Assets.Inventory;
 
 public class HandInRecipe : MonoBehaviour
 {
     public GameObject RecipeHandIn;
+    public GameObject RecipeHandInQuestion;
+    public GameObject RecipeHandInRating;
+    public GameObject LoadingImage;
+    public TMP_Text _ingredientScoreText;
+
+    public RecipeBookController RecipeController;
+    public InventorySystem InventorySys;
+    private List<GameObject> _ingredientList = new List<GameObject>();
+
+    private float _ingredientPointCount;
+    private float _ingredientPointFactor = 100;
 
     public void YesButton()
     {
-        print("yes");
+        _ingredientList = RecipeController.CurrentIngredientsList;
+
+        for (int i = 0; i < _ingredientList.Count; i++)
+        {
+            for (int j = 0; j < InventorySys.Inventory.Count; j++)
+            {
+                if (InventorySys.Inventory[j].name == (_ingredientList[i].name + "(Clone)")) _ingredientPointCount += _ingredientPointFactor;
+            }
+        }
+
+        _ingredientScoreText.text = _ingredientPointCount.ToString();
+
+        RecipeHandInQuestion.SetActive(false);
+        RecipeHandInRating.SetActive(true);
     }
     public void NoButton()
     {
         print("no");
         StopInteraction();
+    }
+
+    public void PlayAgainButton()
+    {
+        Time.timeScale = 1.0f;
+        LoadingImage.SetActive(true);
+        SceneManager.LoadScene("MainMenu");
     }
     public void StartInteraction()
     {
