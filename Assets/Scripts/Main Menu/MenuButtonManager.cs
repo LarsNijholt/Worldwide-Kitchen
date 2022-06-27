@@ -12,12 +12,14 @@ public class MenuButtonManager : MonoBehaviour
     [SerializeField] private GameObject _unmuteBtn;
 
     private MusicManager _musicManager;
+
     private void Start()
     {
         _musicManager = FindObjectOfType<MusicManager>();
 
         if (!_musicManager.Source.isPlaying) MuteAudio();
     }
+
     public void PlayButton()
     {
         _charSelection.SetActive(true);
@@ -40,6 +42,7 @@ public class MenuButtonManager : MonoBehaviour
 
         _musicManager.Source.Pause();
     }
+
     public void UnmuteAudio()
     {
         _muteBtn.SetActive(false);

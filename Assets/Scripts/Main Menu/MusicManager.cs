@@ -8,6 +8,7 @@ public class MusicManager : MonoBehaviour
 
     #region Singleton pattern
     private static MusicManager _instance;
+
     private void Awake()
     {
         if (_instance == null)
@@ -18,6 +19,7 @@ public class MusicManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     #endregion
+
     private void Start()
     {
         Source.Play();
