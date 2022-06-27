@@ -119,7 +119,7 @@ namespace Characters
             {
                 _rigidBody.velocity = new Vector2(Mathf.Sign(_rigidBody.velocity.x) * _maxSpeed, _rigidBody.velocity.y);
             }
-            //_animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
+            _animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
             //_animator.SetFloat("vertical", _rigidBody.velocity.y);
         }
 
