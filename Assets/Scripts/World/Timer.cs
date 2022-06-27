@@ -34,7 +34,7 @@ namespace Assets.World
                     _timeInMinutes++;
                     _timeAsSeconds = 0;
                 }
-                _textObject.text = string.Format("Time elapsed: {0:D2}:{1:D2}", _timeInMinutes, everySecond); 
+                _textObject.text = string.Format("{0:D2}:{1:D2}", _timeInMinutes, everySecond); 
             }
             else
             {

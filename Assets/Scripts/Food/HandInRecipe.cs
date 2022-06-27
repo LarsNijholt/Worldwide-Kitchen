@@ -10,7 +10,10 @@ public class HandInRecipe : MonoBehaviour
     public GameObject RecipeHandInQuestion;
     public GameObject RecipeHandInRating;
     public GameObject LoadingImage;
-    public TMP_Text _ingredientScoreText;
+
+    public TMP_Text IngredientScoreText;
+    public TMP_Text TimerText;
+    public TMP_Text GameTimer;
 
     public RecipeBookController RecipeController;
     public InventorySystem InventorySys;
@@ -31,14 +34,15 @@ public class HandInRecipe : MonoBehaviour
             }
         }
 
-        _ingredientScoreText.text = _ingredientPointCount.ToString();
+        IngredientScoreText.text = _ingredientPointCount.ToString();
+        TimerText.text = GameTimer.text;
 
         RecipeHandInQuestion.SetActive(false);
         RecipeHandInRating.SetActive(true);
     }
     public void NoButton()
     {
-        print("no");
+        
         StopInteraction();
     }
 
