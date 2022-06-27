@@ -25,22 +25,6 @@ namespace Assets.Food
             print(_foodToCook);
         }
 
-        public void GetRated()
-        {
-            List<BaseIngredient> playerInventory = _playerInventory.GetInventory();
-            for (int i = 0; i < _allIngredients.Count; i++)
-            {
-                for (int j = 0; j < playerInventory.Count; j++)
-                {
-                    if (playerInventory[j] == _allIngredients[i])
-                    {
-                        _rating += 1; // To make sure it only executes once when debugging.
-                    }
-                }
-            }
-        }
-
         public List<BaseIngredient> GetIngredients() { return _allIngredients; }
-        public int GetRating() { return _rating; }
     } 
 }

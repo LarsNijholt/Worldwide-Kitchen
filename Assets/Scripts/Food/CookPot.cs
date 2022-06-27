@@ -29,8 +29,7 @@ namespace Assets.Food
             if (!_canInteract) return;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _ingredientList.GetRated();
-                Cooking = string.Format("Start cooking: Rating:", _ingredientList.GetRating());
+                
                 print(Cooking);
             }
         }
