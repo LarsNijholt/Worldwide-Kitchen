@@ -187,9 +187,7 @@ namespace Characters
         /// </summary>
         protected void SwitchCharacter(BaseCharacter switchedCharacter, string key)
         {
-            print(key);
             Character character = (Character)PlayerPrefs.GetInt(key);
-            print(character);
             switch (character)
             {
                 case Character.europe:

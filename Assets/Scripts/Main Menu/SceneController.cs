@@ -22,7 +22,7 @@ public class SceneController : MonoBehaviour
 
     private void Start()
     {
-        AsyncLoadScene("ThomasScene");
+        AsyncLoadScene("GameScene");
     }
 
     public void EnableScene()

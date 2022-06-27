@@ -4,7 +4,7 @@ namespace Characters
 {
     public class Player1 : BaseCharacter
     {
-        private KeyCode jump = KeyCode.UpArrow;
+        private KeyCode jump = KeyCode.W;
 
         private void Start()
         {
