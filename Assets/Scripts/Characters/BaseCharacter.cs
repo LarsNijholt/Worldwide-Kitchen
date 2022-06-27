@@ -93,7 +93,6 @@ namespace Characters
             {
                 _jumpTimer = Time.time + _jumpDelay;
             }
-            // _animator.SetBool("onGround", _onGround);
             _direction = new Vector2(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(VerticalAxis));
         }
 
@@ -112,7 +111,7 @@ namespace Characters
         /// </summary>
         private void MoveCharacter(float horizontal)
         {
-            _rigidBody.AddForce(Vector2.right * horizontal * _accelerationSpeed);
+             _rigidBody.AddForce(Vector2.right * horizontal * _accelerationSpeed);
 
             if ((horizontal > 0 && !_facingRight) || (horizontal < 0 && _facingRight)) Flip();
             if (Mathf.Abs(_rigidBody.velocity.x) > _maxSpeed)
@@ -120,7 +119,6 @@ namespace Characters
                 _rigidBody.velocity = new Vector2(Mathf.Sign(_rigidBody.velocity.x) * _maxSpeed, _rigidBody.velocity.y);
             }
             _animator.SetFloat("horizontal", Mathf.Abs(_rigidBody.velocity.x));
-            //_animator.SetFloat("vertical", _rigidBody.velocity.y);
         }
 
         /// <summary>
@@ -142,6 +140,7 @@ namespace Characters
 
             if (_onGround)
             {
+                _animator.SetBool("Jump", false);
                 if (Mathf.Abs(_direction.x) < 0.4f || changingDirection) _rigidBody.drag = _linearDrag;
                 else
                 {
@@ -151,6 +150,7 @@ namespace Characters
             }
             else
             {
+                _animator.SetBool("Jump", true);
                 _rigidBody.gravityScale = _gravity;
                 _rigidBody.drag = _linearDrag * 0.5f;
                 if (_rigidBody.velocity.y < 0) _rigidBody.gravityScale = _gravity * _fallMultiplier;
@@ -195,21 +195,25 @@ namespace Characters
                 case Character.europe:
                     {
                         switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EuropeSprite;
+                        _animator.SetBool("Europe", true);
                         break;
                     }
                 case Character.Oceania:
                     {
                         switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = OceaniaSprite;
+                        _animator.SetBool("Oceania", true);
                         break;
                     }
                 case Character.Africa:
                     {
                         switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = AfricaSprite;
+                        _animator.SetBool("Africa", true);
                         break;
                     }
                 case Character.Asia:
                     {
                         switchedCharacter.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = AsiaSprite;
+                        _animator.SetBool("Asia", true);
                         break;
                     }
             }
