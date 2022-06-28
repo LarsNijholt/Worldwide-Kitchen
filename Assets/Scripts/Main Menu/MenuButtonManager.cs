@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuButtonManager : MonoBehaviour
 {
     [SerializeField] private GameObject _charSelection;
+    [SerializeField] private GameObject _creditSection;
     [SerializeField] private GameObject _mainMenu;
 
     [SerializeField] private GameObject _muteBtn;
@@ -26,8 +27,10 @@ public class MenuButtonManager : MonoBehaviour
         _mainMenu.SetActive(false);
     }
 
-    public void SettingsButton()
+    public void CreditsButton()
     {
+        _creditSection.SetActive(true);
+        _mainMenu.SetActive(false);
     }
 
     public void QuitButton()
@@ -49,5 +52,22 @@ public class MenuButtonManager : MonoBehaviour
         _unmuteBtn.SetActive(true);
 
         _musicManager.Source.UnPause();
+    }
+
+    public void BackFromCharSelect()
+    {
+        _charSelection.SetActive(false);
+        _mainMenu.SetActive(true);
+    }
+    public void BackFromCredits()
+    {
+        _creditSection.SetActive(false);
+        _mainMenu.SetActive(true);
+    }
+
+    public void OpenWebsite(string url)
+    {
+        if (url == "") return;
+        Application.OpenURL(url);
     }
 }
